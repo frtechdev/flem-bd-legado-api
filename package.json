@@ -1,0 +1,34 @@
+{
+  "name": "flem-bd-legado-api",
+  "version": "0.0.1-220611dx",
+  "private": true,
+  "scripts": {
+    "dev": "dotenv -- cross-var next dev -p %NEXT_PUBLIC_PORT%",
+    "build": "next build",
+    "start": "dotenv -- cross-var next start -p %NEXT_PUBLIC_PORT%",
+    "lint": "next lint",
+    "docs": "jsdoc --readme README.md -c jsdoc-config.json",
+    "db": "prisma studio",
+    "migrate": "prisma migrate dev"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.15.2",
+    "axios": "^0.27.2",
+    "clean-jsdoc-theme": "^3.3.4",
+    "cross-var": "^1.1.0",
+    "dotenv": "^16.0.1",
+    "dotenv-cli": "^5.1.0",
+    "jsdoc": "^3.6.10",
+    "multer": "^1.4.5-lts.1",
+    "next": "12.1.6",
+    "nextjs-cors": "^2.1.1",
+    "prisma": "^3.15.2",
+    "react": "18.1.0",
+    "react-dom": "18.1.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "eslint": "8.17.0",
+    "eslint-config-next": "12.1.6"
+  }
+}

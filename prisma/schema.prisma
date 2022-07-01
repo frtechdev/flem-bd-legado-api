@@ -1,0 +1,1596 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("NEXT_PUBLIC_DATABASE_URL")
+}
+
+model Acao {
+  id_acao             Int         @id(map: "PK__Acao__B474D3977F60ED59") @default(autoincrement())
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?        @db.VarChar(255)
+  usuario_criacao     String?        @db.VarChar(255)
+  data                DateTime
+  descricao           String?        @db.VarChar(Max)
+  id_egresso          Int?
+  id_tipoDeAcao       Int
+  version             Int
+  Egresso             Egresso?       @relation(fields: [id_egresso], references: [id_egresso], onDelete: NoAction, onUpdate: NoAction, map: "FK8nuej8x7hatxkofkb9tm0ya8e")
+  TipoDeAcao          TipoDeAcao     @relation(fields: [id_tipoDeAcao], references: [id_tipoDeAcao], onUpdate: NoAction, map: "FK2jjav7w516aag05y3gxa9ykd2")
+  EnvioDeEmail        EnvioDeEmail[]
+
+  @@index([id_egresso, id_tipoDeAcao], map: "idx_acao_id_egresso_tipo_acao")
+}
+
+model Acao_AUD {
+  id_acao        Int
+  REV            Int
+  REVTYPE        Int?           @db.SmallInt
+  data           DateTime?
+  descricao      String?        @db.VarChar(Max)
+  id_tipoDeAcao  Int?
+  VersaoDosDados VersaoDosDados @relation(fields: [REV], references: [id_versao], onUpdate: NoAction, map: "FK5re3gkb92cdonlxl186kivhaw")
+
+  @@id([id_acao, REV], map: "PK__Acao_AUD__98DB299338996AB5")
+}
+
+model agendamentos {
+  id                     Int                   @id(map: "PK__agendame__3213E83F453F38BC") @default(autoincrement())
+  dataalteracao          DateTime?
+  datacriacao            DateTime?
+  excluido               Boolean?
+  usuario_atualizacao    String?                  @db.VarChar(255)
+  usuario_criacao        String?                  @db.VarChar(255)
+  data_final             DateTime?
+  data_inicial           DateTime?
+  data_registro          DateTime?
+  observacao             String?                  @db.Text
+  status                 String?                  @db.VarChar(255)
+  id_beneficiario        Int
+  id_periodo             Int
+  Egresso                Egresso                  @relation(fields: [id_beneficiario], references: [id_egresso], onUpdate: NoAction, map: "FKbd2lmydp4c4ca5tnk01m5c3ek")
+  periodos               periodos                 @relation(fields: [id_periodo], references: [id], onUpdate: NoAction, map: "FK7qsfr54rp3fh21gtcsr9b16lh")
+  registro_monitoramento registro_monitoramento[]
+}
+
+model agendamentos_aud {
+  id                  Int
+  rev                 Int
+  revtype             Int?      @db.SmallInt
+  dataalteracao       DateTime?
+  datacriacao         DateTime?
+  excluido            Boolean?
+  usuario_atualizacao String?   @db.VarChar(255)
+  usuario_criacao     String?   @db.VarChar(255)
+  data_final          DateTime?
+  data_inicial        DateTime?
+  data_registro       DateTime?
+  observacao          String?   @db.Text
+  status              String?   @db.VarChar(255)
+  id_beneficiario     Int?
+  id_periodo          Int?
+  revinfo             revinfo   @relation(fields: [rev], references: [rev], onUpdate: NoAction, map: "FKgafojis626s3u5gtry9hd5rbo")
+
+  @@id([id, rev], map: "PK__agendame__BE3894F9490FC9A0")
+}
+
+model AssistenciaSocial {
+  id_assitenciasocial      Int                @id(map: "PK__Assisten__150A296703317E3D") @default(autoincrement())
+  dataAlteracao            DateTime?
+  dataCriacao              DateTime?
+  usuario_atualizacao      String?               @db.VarChar(255)
+  usuario_criacao          String?               @db.VarChar(255)
+  data                     DateTime
+  descricao                String?               @db.VarChar(Max)
+  id_egresso               Int?
+  id_tipoAssistenciaSocial Int
+  version                  Int
+  Egresso                  Egresso?              @relation(fields: [id_egresso], references: [id_egresso], onDelete: NoAction, onUpdate: NoAction, map: "FK5itx79saa3frud880tklqomo8")
+  TipoAssistenciaSocial    TipoAssistenciaSocial @relation(fields: [id_tipoAssistenciaSocial], references: [id_tipoAssistenciaSocial], onUpdate: NoAction, map: "FKm0ew0qdsx9don7a10wckpthdi")
+}
+
+model AssistenciaSocial_AUD {
+  id_assitenciasocial      Int
+  REV                      Int
+  REVTYPE                  Int?           @db.SmallInt
+  data                     DateTime?
+  descricao                String?        @db.VarChar(Max)
+  id_tipoAssistenciaSocial Int?
+  VersaoDosDados           VersaoDosDados @relation(fields: [REV], references: [id_versao], onUpdate: NoAction, map: "FKjxu51u2qcebx1vtjfvjropdd")
+
+  @@id([id_assitenciasocial, REV], map: "PK__Assisten__39A5D3633C69FB99")
+}
+
+model avaliacao_monitoramento {
+  id                     Int                   @id(map: "PK__avaliaca__3213E83F705EA0EB") @default(autoincrement())
+  dataalteracao          DateTime?
+  datacriacao            DateTime?
+  usuario_atualizacao    String?                  @db.VarChar(255)
+  usuario_criacao        String?                  @db.VarChar(255)
+  ativo                  Boolean?
+  descricao              String?                  @db.VarChar(255)
+  nome                   String                   @db.VarChar(255)
+  excluido               Boolean?
+  avaliacao_questionario avaliacao_questionario[]
+}
+
+model avaliacao_questionario {
+  dataalteracao           DateTime?
+  datacriacao             DateTime?
+  usuario_atualizacao     String?                 @db.VarChar(255)
+  usuario_criacao         String?                 @db.VarChar(255)
+  file_path               String?                 @db.VarChar(255)
+  id_avaliacao            Int
+  id_questionario         Int
+  excluido                Boolean?
+  avaliacao_monitoramento avaliacao_monitoramento @relation(fields: [id_avaliacao], references: [id], onUpdate: NoAction, map: "FKopastrgem47g0l9d6gdnr8ubl")
+  questionarios           questionarios           @relation(fields: [id_questionario], references: [id], onUpdate: NoAction, map: "FKbrogl6keu1e451k4xxgquw7um")
+
+  @@id([id_avaliacao, id_questionario], map: "PK__avaliaca__1FFC0FDA742F31CF")
+}
+
+model Campanha {
+  id_campanha         Int          @id(map: "PK__Campanha__57EB72BC02084FDA") @default(autoincrement())
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?         @db.VarChar(255)
+  usuario_criacao     String?         @db.VarChar(255)
+  assunto             String          @db.VarChar(255)
+  mensagem            String          @db.VarChar(Max)
+  status              Int?
+  id_contadeemail     Int?
+  id_modeloDeOficio   Int?
+  version             Int
+  ContaDeEmail        ContaDeEmail?   @relation(fields: [id_contadeemail], references: [id_contaDeEmail], onDelete: NoAction, onUpdate: NoAction, map: "FK9f5n7qrmv9egonesn7pb7aktu")
+  ModeloDeOficio      ModeloDeOficio? @relation(fields: [id_modeloDeOficio], references: [id_documento], onDelete: NoAction, onUpdate: NoAction, map: "FK9mjjo3bm1h7uto3xy2qketppw")
+  EnvioDeEmail        EnvioDeEmail[]
+}
+
+model CategoriaDaSituacao {
+  id_categoriaDaSituacao Int     @id(map: "PK__Categori__5A40C39407020F21") @default(autoincrement())
+  dataAlteracao          DateTime?
+  dataCriacao            DateTime?
+  usuario_atualizacao    String?    @db.VarChar(255)
+  usuario_criacao        String?    @db.VarChar(255)
+  nome                   String     @db.VarChar(255)
+  cor                    String?    @db.VarChar(255)
+  version                Int
+  Situacao               Situacao[]
+}
+
+model CI {
+  fechada      Boolean?
+  numero       Int
+  id_documento Int        @id(map: "PK__CI__5D2EE7E56CD828CA")
+  ano          Int
+  assunto      String?       @db.VarChar(255)
+  id_egresso   Int?
+  Documento    Documento     @relation(fields: [id_documento], references: [id_documento], onUpdate: NoAction, map: "FK5mgvd97b29t2xxq7ox9dip3ob")
+  Egresso      Egresso?      @relation(fields: [id_egresso], references: [id_egresso], onDelete: NoAction, onUpdate: NoAction, map: "FKjtvrb5k89a0war4ui10yjmnjm")
+  CI_Egressos  CI_Egressos[] @ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model CI_Egressos {
+  id_documento Int
+  id_egresso   Int
+  CI           CI      @relation(fields: [id_documento], references: [id_documento], onUpdate: NoAction, map: "FKtko2tc8cmu51am36i1e3f1jp4")
+  Egresso      Egresso @relation(fields: [id_egresso], references: [id_egresso], onUpdate: NoAction, map: "FKogduga1npf3ckwp1gqmcvuycw")
+
+  @@ignore
+}
+
+model Colaborador {
+  id_colaborador                                                                  Int                        @id(map: "PK__Colabora__BA4DA94627F8EE98") @default(autoincrement())
+  dataAlteracao                                                                   DateTime?
+  dataCriacao                                                                     DateTime?
+  usuario_atualizacao                                                             String?                       @db.VarChar(255)
+  usuario_criacao                                                                 String?                       @db.VarChar(255)
+  ativo                                                                           Boolean?
+  cargo                                                                           String                        @db.VarChar(255)
+  celular                                                                         Int?
+  email                                                                           String?                       @db.VarChar(255)
+  nome                                                                            String                        @db.VarChar(255)
+  telefone                                                                        Int?
+  ID_ESC_REGIONAL                                                                 Int?
+  version                                                                         Int
+  EscritorioRegional                                                              EscritorioRegional?           @relation(fields: [ID_ESC_REGIONAL], references: [id_esc_regional], onDelete: NoAction, onUpdate: NoAction, map: "FKhask5nwvnw0fqat6pxmwcwta3")
+  colaborador_has_demandantes                                                     colaborador_has_demandantes[] @ignore
+  Demandante                                                                      Demandante[]
+  MonitorDemandante                                                               MonitorDemandante[]
+  registro_monitoramento_ColaboradorToregistro_monitoramento_id_monitor           registro_monitoramento[]      @relation("ColaboradorToregistro_monitoramento_id_monitor")
+  registro_monitoramento_ColaboradorToregistro_monitoramento_id_monitor_associado registro_monitoramento[]      @relation("ColaboradorToregistro_monitoramento_id_monitor_associado")
+  visita_beneficiario                                                             visita_beneficiario[]
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model colaborador_has_demandantes {
+  id_colaborador Int
+  id_demandante  Int
+  Colaborador    Colaborador @relation(fields: [id_colaborador], references: [id_colaborador], onUpdate: NoAction, map: "FK25str6d79x9ps8x5ep11r2r9x")
+  Demandante     Demandante  @relation(fields: [id_demandante], references: [id_demandante], onUpdate: NoAction, map: "FKkqq0k6kxf0pp95i0kefuub45q")
+
+  @@ignore
+}
+
+model comprovacao {
+  id                     Int                   @id(map: "PK__comprova__3213E83F77FFC2B3") @default(autoincrement())
+  dataalteracao          DateTime?
+  datacriacao            DateTime?
+  usuario_atualizacao    String?                  @db.VarChar(255)
+  usuario_criacao        String?                  @db.VarChar(255)
+  content_type           String?                  @db.VarChar(255)
+  file_name              String?                  @db.VarChar(255)
+  file_path              String?                  @db.VarChar(255)
+  file_size              Int?
+  tipo_comprovacao       String?                  @db.VarChar(255)
+  excluido               Boolean?
+  registro_monitoramento registro_monitoramento[]
+}
+
+model comprovacao_aud {
+  id                  Int
+  rev                 Int
+  revtype             Int?      @db.SmallInt
+  dataalteracao       DateTime?
+  datacriacao         DateTime?
+  excluido            Boolean?
+  usuario_atualizacao String?   @db.VarChar(255)
+  usuario_criacao     String?   @db.VarChar(255)
+  content_type        String?   @db.VarChar(255)
+  file_name           String?   @db.VarChar(255)
+  file_path           String?   @db.VarChar(255)
+  file_size           Int?
+  tipo_comprovacao    String?   @db.VarChar(255)
+  revinfo             revinfo   @relation(fields: [rev], references: [rev], onUpdate: NoAction, map: "FK6b5lbhwqvtj02743eqsram4o7")
+
+  @@id([id, rev], map: "PK__comprova__BE3894F92D67AF2B")
+}
+
+model ContaDeEmail {
+  id_contaDeEmail     Int     @id(map: "PK__ContaDeE__E5F78286498EEC8D") @default(autoincrement())
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?    @db.VarChar(255)
+  usuario_criacao     String?    @db.VarChar(255)
+  emailRemetente      String?    @db.VarChar(255)
+  login               String?    @db.VarChar(255)
+  nomeRemetente       String?    @db.VarChar(255)
+  porta               Int?
+  principal           Boolean
+  senha               String?    @db.VarChar(255)
+  servidor            String?    @db.VarChar(255)
+  version             Int
+  Campanha            Campanha[]
+}
+
+model CoordenadorFocal {
+  id_coordenadorFocal Int     @id(map: "PK__Coordena__9BCFEF0472C60C4A") @default(autoincrement())
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?    @db.VarChar(255)
+  usuario_criacao     String?    @db.VarChar(255)
+  email               String?    @db.VarChar(255)
+  nome                String?    @db.VarChar(255)
+  telefone            String?    @db.VarChar(255)
+  id_demandante       Int
+  version             Int
+  Demandante          Demandante @relation(fields: [id_demandante], references: [id_demandante], onUpdate: NoAction, map: "FKt76sqvts80ktb66nkldlvjr23")
+}
+
+model Deficiencia {
+  id_deficiencia      Int    @id(map: "PK__Deficien__A1980C4E1DB06A4F") @default(autoincrement())
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?   @db.VarChar(255)
+  usuario_criacao     String?   @db.VarChar(255)
+  nome                String?   @db.VarChar(255)
+  version             Int
+  Egresso             Egresso[]
+}
+
+model Demandante {
+  id_demandante               Int                        @id(map: "PK__Demandan__EAEEB12C0AD2A005") @default(autoincrement())
+  dataAlteracao               DateTime?
+  dataCriacao                 DateTime?
+  usuario_atualizacao         String?                       @db.VarChar(255)
+  usuario_criacao             String?                       @db.VarChar(255)
+  nome                        String?                       @db.VarChar(255)
+  sigla                       String?                       @db.VarChar(255)
+  demandante_cod_sistec       String?                       @db.VarChar(50)
+  data_alteracao              DateTime?
+  data_criacao                DateTime?
+  label                       String?                       @db.VarChar(255)
+  id_colaborador              Int?
+  version                     Int
+  Colaborador                 Colaborador?                  @relation(fields: [id_colaborador], references: [id_colaborador], onDelete: NoAction, onUpdate: NoAction, map: "FKqk9c2kfdhnmhp30yc0p0g3hqw")
+  colaborador_has_demandantes colaborador_has_demandantes[] @ignore
+  CoordenadorFocal            CoordenadorFocal[]
+  Evento_Demandante           Evento_Demandante[]           @ignore
+  Instituicao                 Instituicao[]
+  MonitorDemandante           MonitorDemandante[]
+  registro_monitoramento      registro_monitoramento[]
+  RegraContratacao            RegraContratacao[]
+  Vaga                        Vaga[]
+}
+
+model DistanciaEntreMunicipios {
+  id_distanciaEntreMunicipios                                       Int     @id(map: "PK__Distanci__265A74214E53A1AA") @default(autoincrement())
+  dataAlteracao                                                     DateTime?
+  dataCriacao                                                       DateTime?
+  usuario_atualizacao                                               String?    @db.VarChar(255)
+  usuario_criacao                                                   String?    @db.VarChar(255)
+  distancia                                                         Int?
+  id_municipioDestino                                               Int?
+  id_municipioOrigem                                                Int?
+  version                                                           Int
+  Municipio_DistanciaEntreMunicipios_id_municipioDestinoToMunicipio Municipio? @relation("DistanciaEntreMunicipios_id_municipioDestinoToMunicipio", fields: [id_municipioDestino], references: [id_municipio], onDelete: NoAction, onUpdate: NoAction, map: "FK61l4sn1hronv15hcpjdht750w")
+  Municipio_DistanciaEntreMunicipios_id_municipioOrigemToMunicipio  Municipio? @relation("DistanciaEntreMunicipios_id_municipioOrigemToMunicipio", fields: [id_municipioOrigem], references: [id_municipio], onDelete: NoAction, onUpdate: NoAction, map: "FKif3rj32y1x9mdu2qxsr3ncshu")
+
+  @@unique([id_municipioDestino, id_municipioOrigem], map: "idx_muni_origem_destino")
+}
+
+model Documento {
+  id_documento        Int              @id(map: "PK__Document__5D2EE7E5719CDDE7") @default(autoincrement())
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?             @db.VarChar(255)
+  usuario_criacao     String?             @db.VarChar(255)
+  arquivo             Bytes?
+  nome                String?             @db.VarChar(255)
+  tipo                String?             @db.VarChar(255)
+  version             Int
+  filePath            String?             @db.VarChar(255)
+  fileLenght          Int?
+  CI                  CI?
+  DocumentoDoEgresso  DocumentoDoEgresso?
+  ModeloDeOficio      ModeloDeOficio?
+  Oficio              Oficio?
+}
+
+model DocumentoDoEgresso {
+  id_documento Int    @id(map: "PK__Document__5D2EE7E5756D6ECB")
+  id_egresso   Int
+  sigiloso     Boolean?
+  Documento    Documento @relation(fields: [id_documento], references: [id_documento], onUpdate: NoAction, map: "FK5lodg9w4geby3tpmvn7oh1fgs")
+  Egresso      Egresso   @relation(fields: [id_egresso], references: [id_egresso], onUpdate: NoAction, map: "FK1wie3aj3vvhuacdd4qa2b7l3g")
+}
+
+model Egresso {
+  id_egresso                                      Int                                @id(map: "PK__Egresso__6E3477770EA330E9") @default(autoincrement())
+  dataAlteracao                                   DateTime?
+  dataCriacao                                     DateTime?
+  usuario_atualizacao                             String?                               @db.VarChar(255)
+  usuario_criacao                                 String?                               @db.VarChar(255)
+  anamnese                                        String?                               @db.VarChar(255)
+  bairro                                          String?                               @db.VarChar(255)
+  celular                                         String?                               @db.VarChar(255)
+  cep                                             String?                               @db.VarChar(255)
+  complemento                                     String?                               @db.VarChar(255)
+  contato                                         String?                               @db.VarChar(255)
+  cpf                                             String                                @db.VarChar(255)
+  dataNascimento                                  DateTime?                             @db.Date
+  dataSeminarioAcolhimento                        String?                               @db.VarChar(255)
+  dddCelular                                      String?                               @db.VarChar(255)
+  dddContato                                      String?                               @db.VarChar(255)
+  dddTelefone1                                    String?                               @db.VarChar(255)
+  dddTelefone2                                    String?                               @db.VarChar(255)
+  emailParticular                                 String?                               @db.VarChar(255)
+  endereco                                        String?                               @db.VarChar(255)
+  formacao                                        String?                               @db.VarChar(255)
+  localSeminarioAcolhimento                       String?                               @db.VarChar(255)
+  matriculaFlem                                   String?                               @db.VarChar(255)
+  matriculaSAEB                                   String?                               @db.VarChar(255)
+  modalidadeSeminarioAcolhimento                  String?                               @db.VarChar(255)
+  municipiosSeminarioAcolhimento                  String?                               @db.VarChar(255)
+  nome                                            String                                @db.VarChar(255)
+  nomeSeminarioAcolhimento                        String?                               @db.VarChar(255)
+  numero                                          String?                               @db.VarChar(255)
+  observacao                                      String?                               @db.VarChar(Max)
+  rg                                              String?                               @db.VarChar(255)
+  sexo                                            String?                               @db.VarChar(255)
+  telefone1                                       String?                               @db.VarChar(255)
+  telefone2                                       String?                               @db.VarChar(255)
+  uf                                              String?                               @db.VarChar(255)
+  id_pontoFocal                                   Int?
+  dataEventoLancamentoPE                          String?                               @db.VarChar(255)
+  fardamentoRecebido                              DateTime?                             @db.Date
+  localEventoLancamentoPE                         String?                               @db.VarChar(255)
+  modalidadeEventoLancamentoPE                    String?                               @db.VarChar(255)
+  nomeEventoLancamentoPE                          String?                               @db.VarChar(255)
+  id_municipio                                    Int
+  id_municipioEscola                              Int?
+  aso                                             Boolean?
+  valeAlimentacao                                 String?                               @db.VarChar(255)
+  valeTransporte                                  String?                               @db.VarChar(255)
+  tamanhoDeCamisa                                 String?                               @db.VarChar(255)
+  id_formacao                                     Int?
+  id_deficiencia                                  Int?
+  emailSecundario                                 String?                               @db.VarChar(255)
+  racaCor                                         Int?
+  relocacaoDeVagaAtendida                         Boolean?
+  relocacaoDeVagaEncaminhada                      Boolean?
+  asoPendente                                     Boolean?
+  cartaCidadaoPendente                            Boolean?
+  cartaoVacinaPendente                            Boolean?
+  carteiraAssinada                                Boolean?
+  certidaoCasamentoPendente                       Boolean?
+  certidaoNascimentoPendente                      Boolean?
+  comprovanteEscolaridadePendente                 Boolean?
+  comprovanteVotacaoPendente                      Boolean?
+  comprovanteresidenciaPendente                   Boolean?
+  contratoTrabalhoFlem                            Boolean?
+  cpfPendente                                     Boolean?
+  ctpsPendente                                    Boolean?
+  curriculoPendente                               Boolean?
+  dadosbancariosPendente                          Boolean?
+  diplomaPendente                                 Boolean?
+  estagioConcluido                                Boolean?
+  foto3x4Pendente                                 Boolean?
+  reservistaPendente                              Boolean?
+  rgPendente                                      Boolean?
+  tituloEleitorPendente                           Boolean?
+  escolaconclusao                                 String?                               @db.VarChar(255)
+  cracha                                          Boolean?
+  ctps                                            String?                               @db.VarChar(255)
+  fichaAdmissao                                   Boolean?
+  pis                                             String?                               @db.VarChar(255)
+  plano_Saude                                     Boolean?
+  vale_Alimentacao                                Boolean?
+  vale_Transporte                                 Boolean?
+  data_nascimento                                 DateTime?                             @db.Date
+  ddd_celular                                     String?                               @db.VarChar(255)
+  ddd_contato                                     String?                               @db.VarChar(255)
+  ddd_telefone1                                   String?                               @db.VarChar(255)
+  ddd_telefone2                                   String?                               @db.VarChar(255)
+  email_particular                                String?                               @db.VarChar(255)
+  email_secundario                                String?                               @db.VarChar(255)
+  fardamento_recebido                             DateTime?                             @db.Date
+  matricula_flem                                  String?                               @db.VarChar(255)
+  relocacao_de_vaga_atendida                      Boolean?
+  relocacao_de_vaga_encaminhada                   Boolean?
+  tamanho_de_camisa                               String?                               @db.VarChar(255)
+  avaInformacao                                   String?                               @db.VarChar(2000)
+  anoMatricula                                    String?                               @db.VarChar(255)
+  dataRespostaSemestre                            DateTime?                             @db.Date
+  modalidadeGraduacao                             String?                               @db.VarChar(255)
+  nomeCursoGraduacao                              String?                               @db.VarChar(255)
+  nomeInstituicaoSuperior                         String?                               @db.VarChar(255)
+  rendaPPEAjuda                                   Boolean?
+  semestre                                        String?                               @db.VarChar(255)
+  tipoInstituicaoSuperior                         String?                               @db.VarChar(255)
+  anoConclusaoCurso                               String?                               @db.VarChar(255)
+  dataAdmissao                                    DateTime?                             @db.Date
+  nomeCursoTecnico                                String?                               @db.VarChar(255)
+  nomeInstituicaoTecnico                          String?                               @db.VarChar(255)
+  tipoInstituicaoTecnica                          String?                               @db.VarChar(255)
+  cursoSuperior                                   String?                               @db.VarChar(255)
+  cursoSuperiorConcluido                          String?                               @db.VarChar(255)
+  cursoTecnicoProfissionalizante                  String?                               @db.VarChar(255)
+  pretendeFazerCursoSuperior                      String?                               @db.VarChar(255)
+  version                                         Int
+  Deficiencia                                     Deficiencia?                          @relation(fields: [id_deficiencia], references: [id_deficiencia], onDelete: NoAction, onUpdate: NoAction, map: "FKnib0fjtjd7rrd5sfkss4wcese")
+  Formacao                                        Formacao?                             @relation(fields: [id_formacao], references: [id_formacao], onDelete: NoAction, onUpdate: NoAction, map: "FKgcdaeoy1fpmkudmp2iuhnc6af")
+  Municipio_Egresso_id_municipioToMunicipio       Municipio                             @relation("Egresso_id_municipioToMunicipio", fields: [id_municipio], references: [id_municipio], onUpdate: NoAction, map: "FK3ilf9bnkeg3b9esq8rkc0239k")
+  Municipio_Egresso_id_municipioEscolaToMunicipio Municipio?                            @relation("Egresso_id_municipioEscolaToMunicipio", fields: [id_municipioEscola], references: [id_municipio], onDelete: NoAction, onUpdate: NoAction, map: "FKkmoltmag1vrs4g14ly23dc07a")
+  PontoFocal                                      PontoFocal?                           @relation(fields: [id_pontoFocal], references: [id_pontoFocal], onDelete: NoAction, onUpdate: NoAction, map: "FKeucotsbw7d3iearurr0ui8rmt")
+  Acao                                            Acao[]
+  agendamentos                                    agendamentos[]
+  AssistenciaSocial                               AssistenciaSocial[]
+  CI                                              CI[]
+  CI_Egressos                                     CI_Egressos[]                         @ignore
+  DocumentoDoEgresso                              DocumentoDoEgresso[]
+  EgressoLista                                    EgressoLista[]
+  EnvioDeEmail                                    EnvioDeEmail[]
+  Evento_Egresso                                  Evento_Egresso[]                      @ignore
+  MaterialEgresso                                 MaterialEgresso[]
+  modelo_de_oficio_egressos_pendentes             modelo_de_oficio_egressos_pendentes[] @ignore
+  ModeloDeOficio_EgressosPendentes                ModeloDeOficio_EgressosPendentes[]    @ignore
+  monitoramento                                   monitoramento[]
+  Oficio                                          Oficio[]
+  registro_monitoramento                          registro_monitoramento[]
+  Telefone                                        Telefone[]
+  Vaga                                            Vaga[]
+  visita_beneficiario                             visita_beneficiario[]
+
+  @@index([id_egresso, nome, cpf, matriculaFlem], map: "idx_egre_cpf_matricula")
+}
+
+model Egresso_AUD {
+  id_egresso                      Int
+  REV                             Int
+  REVTYPE                         Int?           @db.SmallInt
+  anamnese                        String?        @db.VarChar(255)
+  bairro                          String?        @db.VarChar(255)
+  celular                         String?        @db.VarChar(255)
+  cep                             String?        @db.VarChar(255)
+  complemento                     String?        @db.VarChar(255)
+  contato                         String?        @db.VarChar(255)
+  cpf                             String?        @db.VarChar(255)
+  dataNascimento                  DateTime?      @db.Date
+  dataSeminarioAcolhimento        String?        @db.VarChar(255)
+  dddCelular                      String?        @db.VarChar(255)
+  dddContato                      String?        @db.VarChar(255)
+  dddTelefone1                    String?        @db.VarChar(255)
+  dddTelefone2                    String?        @db.VarChar(255)
+  emailParticular                 String?        @db.VarChar(255)
+  endereco                        String?        @db.VarChar(255)
+  formacao                        String?        @db.VarChar(255)
+  localSeminarioAcolhimento       String?        @db.VarChar(255)
+  matriculaFlem                   String?        @db.VarChar(255)
+  matriculaSAEB                   String?        @db.VarChar(255)
+  modalidadeSeminarioAcolhimento  String?        @db.VarChar(255)
+  municipiosSeminarioAcolhimento  String?        @db.VarChar(255)
+  nome                            String?        @db.VarChar(255)
+  nomeSeminarioAcolhimento        String?        @db.VarChar(255)
+  numero                          String?        @db.VarChar(255)
+  observacao                      String?        @db.VarChar(Max)
+  rg                              String?        @db.VarChar(255)
+  sexo                            String?        @db.VarChar(255)
+  telefone1                       String?        @db.VarChar(255)
+  telefone2                       String?        @db.VarChar(255)
+  uf                              String?        @db.VarChar(255)
+  dataEventoLancamentoPE          String?        @db.VarChar(255)
+  fardamentoRecebido              DateTime?      @db.Date
+  localEventoLancamentoPE         String?        @db.VarChar(255)
+  modalidadeEventoLancamentoPE    String?        @db.VarChar(255)
+  nomeEventoLancamentoPE          String?        @db.VarChar(255)
+  id_municipio                    Int?
+  id_municipioEscola              Int?
+  aso                             Boolean?
+  valeAlimentacao                 String?        @db.VarChar(255)
+  valeTransporte                  String?        @db.VarChar(255)
+  tamanhoDeCamisa                 String?        @db.VarChar(255)
+  id_formacao                     Int?
+  id_deficiencia                  Int?
+  emailSecundario                 String?        @db.VarChar(255)
+  racaCor                         Int?
+  relocacaoDeVagaAtendida         Boolean?
+  relocacaoDeVagaEncaminhada      Boolean?
+  asoPendente                     Boolean?
+  cartaCidadaoPendente            Boolean?
+  cartaoVacinaPendente            Boolean?
+  carteiraAssinada                Boolean?
+  certidaoCasamentoPendente       Boolean?
+  certidaoNascimentoPendente      Boolean?
+  comprovanteEscolaridadePendente Boolean?
+  comprovanteVotacaoPendente      Boolean?
+  comprovanteresidenciaPendente   Boolean?
+  contratoTrabalhoFlem            Boolean?
+  cpfPendente                     Boolean?
+  ctpsPendente                    Boolean?
+  curriculoPendente               Boolean?
+  dadosbancariosPendente          Boolean?
+  diplomaPendente                 Boolean?
+  estagioConcluido                Boolean?
+  foto3x4Pendente                 Boolean?
+  reservistaPendente              Boolean?
+  rgPendente                      Boolean?
+  tituloEleitorPendente           Boolean?
+  escolaconclusao                 String?        @db.VarChar(255)
+  cracha                          Boolean?
+  ctps                            String?        @db.VarChar(255)
+  fichaAdmissao                   Boolean?
+  pis                             String?        @db.VarChar(255)
+  plano_Saude                     Boolean?
+  vale_Alimentacao                Boolean?
+  vale_Transporte                 Boolean?
+  avaInformacao                   String?        @db.VarChar(2000)
+  anoMatricula                    String?        @db.VarChar(255)
+  dataRespostaSemestre            DateTime?      @db.Date
+  modalidadeGraduacao             String?        @db.VarChar(255)
+  nomeCursoGraduacao              String?        @db.VarChar(255)
+  nomeInstituicaoSuperior         String?        @db.VarChar(255)
+  rendaPPEAjuda                   Boolean?
+  semestre                        String?        @db.VarChar(255)
+  tipoInstituicaoSuperior         String?        @db.VarChar(255)
+  anoConclusaoCurso               String?        @db.VarChar(255)
+  dataAdmissao                    DateTime?      @db.Date
+  nomeCursoTecnico                String?        @db.VarChar(255)
+  nomeInstituicaoTecnico          String?        @db.VarChar(255)
+  tipoInstituicaoTecnica          String?        @db.VarChar(255)
+  cursoSuperior                   String?        @db.VarChar(255)
+  cursoSuperiorConcluido          String?        @db.VarChar(255)
+  cursoTecnicoProfissionalizante  String?        @db.VarChar(255)
+  pretendeFazerCursoSuperior      String?        @db.VarChar(255)
+  VersaoDosDados                  VersaoDosDados @relation(fields: [REV], references: [id_versao], onUpdate: NoAction, map: "FKqr0iu1w5qfmksfb9s5w45b0lj")
+
+  @@id([id_egresso, REV], map: "PK__Egresso___429B8D73403A8C7D")
+}
+
+model EgressoLista {
+  id_egressolista     Int    @id(map: "PK__EgressoL__E0349AE8440B1D61") @default(autoincrement())
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?   @db.VarChar(255)
+  usuario_criacao     String?   @db.VarChar(255)
+  feito               Boolean?
+  id_egresso          Int?
+  id_lista            Int?
+  lista               Bytes?    @db.VarBinary(255)
+  version             Int
+  deAcordo            Boolean?
+  Egresso             Egresso?  @relation(fields: [id_egresso], references: [id_egresso], onDelete: NoAction, onUpdate: NoAction, map: "FKola26x87j8uukfqe04b9vqrfl")
+  Lista               Lista?    @relation(fields: [id_lista], references: [id_lista], onDelete: NoAction, onUpdate: NoAction, map: "FKfo5d5lnkqgtr8uifud1bdcqgw")
+}
+
+model EixoDeFormacao {
+  id_eixoDeFormacao   Int     @id(map: "PK__EixoDeFo__DDF0042E76969D2E") @default(autoincrement())
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?    @db.VarChar(255)
+  usuario_criacao     String?    @db.VarChar(255)
+  nome                String?    @db.VarChar(255)
+  version             Int
+  Formacao            Formacao[]
+}
+
+model EnvioDeEmail {
+  descricaoEnvio      String?   @db.VarChar(255)
+  email               String    @db.VarChar(255)
+  status              Int?
+  id_campanha         Int?
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?   @db.VarChar(255)
+  usuario_criacao     String?   @db.VarChar(255)
+  acao_id_acao        Int?
+  egresso_id_egresso  Int?
+  id                  Int       @id(map: "PK_EnvioDeEmail") @default(autoincrement())
+  emailSecundario     String?   @db.VarChar(255)
+  version             Int
+  Acao                Acao?     @relation(fields: [acao_id_acao], references: [id_acao], onDelete: NoAction, onUpdate: NoAction, map: "FK3856m1xc2jcg6cjqevd20jccx")
+  Egresso             Egresso?  @relation(fields: [egresso_id_egresso], references: [id_egresso], onDelete: NoAction, onUpdate: NoAction, map: "FK64ioh3yelwmoc68tmuko8f4xd")
+  Campanha            Campanha? @relation(fields: [id_campanha], references: [id_campanha], onDelete: NoAction, onUpdate: NoAction, map: "FKrn12mfdwkd3cqaurx9d1dula2")
+}
+
+model EscritorioRegional {
+  id_esc_regional                                         Int        @id(map: "PK__Escritor__4454B1702BC97F7C") @default(autoincrement())
+  dataAlteracao                                           DateTime?
+  dataCriacao                                             DateTime?
+  usuario_atualizacao                                     String?       @db.VarChar(255)
+  usuario_criacao                                         String?       @db.VarChar(255)
+  ativo                                                   Boolean?
+  bairro                                                  String?       @db.VarChar(255)
+  celular                                                 Int?
+  cep                                                     Int?
+  email                                                   String?       @db.VarChar(255)
+  logradouro                                              String?       @db.VarChar(255)
+  nome                                                    String?       @db.VarChar(255)
+  telefone                                                Int?
+  ID_MUNICIPIO                                            Int?
+  data_alteracao                                          DateTime?
+  data_criacao                                            DateTime?
+  version                                                 Int
+  Municipio_EscritorioRegional_ID_MUNICIPIOToMunicipio    Municipio?    @relation("EscritorioRegional_ID_MUNICIPIOToMunicipio", fields: [ID_MUNICIPIO], references: [id_municipio], onDelete: NoAction, onUpdate: NoAction, map: "FKmwtfmjcukmqlgipfkbfp6hdrc")
+  Colaborador                                             Colaborador[]
+  Municipio_EscritorioRegionalToMunicipio_ID_ESC_REGIONAL Municipio[]   @relation("EscritorioRegionalToMunicipio_ID_ESC_REGIONAL")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model ESRG {
+  Munic_pio           String? @map("Município") @db.NVarChar(255)
+  Escrit_rio_Regional String? @map("Escritório Regional") @db.NVarChar(255)
+
+  @@ignore
+}
+
+model Evento {
+  id_evento           Int              @id(map: "PK__Evento__AF150CA509A971A2") @default(autoincrement())
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?             @db.VarChar(255)
+  usuario_criacao     String?             @db.VarChar(255)
+  data                DateTime?
+  modalidade          String?             @db.VarChar(255)
+  nome                String?             @db.VarChar(255)
+  tipo                String?             @db.VarChar(255)
+  id_localDoEvento    Int?
+  version             Int
+  LocalDoEvento       LocalDoEvento?      @relation(fields: [id_localDoEvento], references: [id_localDoEvento], onDelete: NoAction, onUpdate: NoAction, map: "FKrpu182bfkgnj6i5fhty1bgu8w")
+  Evento_Demandante   Evento_Demandante[] @ignore
+  Evento_Egresso      Evento_Egresso[]    @ignore
+  Evento_Municipio    Evento_Municipio[]  @ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model Evento_Demandante {
+  id_evento     Int
+  id_demandante Int
+  Demandante    Demandante @relation(fields: [id_demandante], references: [id_demandante], onUpdate: NoAction, map: "FKtrmhfmjr3f1pml3f1gtmjvdry")
+  Evento        Evento     @relation(fields: [id_evento], references: [id_evento], onUpdate: NoAction, map: "FKpjwhelwe2vcruooqa631r8c7b")
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model Evento_Egresso {
+  id_evento           Int
+  id_egresso          Int
+  situacao            String?   @db.VarChar(255)
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?   @db.VarChar(255)
+  usuario_criacao     String?   @db.VarChar(255)
+  version             Int
+  Egresso             Egresso   @relation(fields: [id_egresso], references: [id_egresso], onUpdate: NoAction, map: "FK2jvkxe0lahqkkhnuqq5m1nt21")
+  Evento              Evento    @relation(fields: [id_evento], references: [id_evento], onUpdate: NoAction, map: "FKdqlj04gbtiuq15d1m0pnhu42m")
+
+  @@index([id_evento, id_egresso], map: "idx_evee_Egresso_Evento")
+  @@index([id_egresso], map: "idx_eveg_id_egresso")
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model Evento_Municipio {
+  id_evento    Int
+  id_municipio Int
+  Evento       Evento    @relation(fields: [id_evento], references: [id_evento], onUpdate: NoAction, map: "FKojmqu42u0bvnh02hmwho3h51k")
+  Municipio    Municipio @relation(fields: [id_municipio], references: [id_municipio], onUpdate: NoAction, map: "FKds0uhpkt965h01ksh5astf1j8")
+
+  @@ignore
+}
+
+model Formacao {
+  id_formacao         Int             @id(map: "PK__Formacao__AE618B3E7A672E12") @default(autoincrement())
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?            @db.VarChar(255)
+  usuario_criacao     String?            @db.VarChar(255)
+  nome                String?            @db.VarChar(255)
+  id_eixoDeFormacao   Int
+  formacao_cod_sistec String?            @db.VarChar(50)
+  version             Int
+  EixoDeFormacao      EixoDeFormacao     @relation(fields: [id_eixoDeFormacao], references: [id_eixoDeFormacao], onUpdate: NoAction, map: "FKdjpfuk1afqsqf7va9kmr3pnq")
+  Egresso             Egresso[]
+  RegraContratacao    RegraContratacao[]
+}
+
+model Instituicao {
+  id_instituicao      Int             @id(map: "PK__Institui__F1F4021D1367E606") @default(autoincrement())
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?            @db.VarChar(255)
+  usuario_criacao     String?            @db.VarChar(255)
+  nome                String?            @db.VarChar(255)
+  id_demandante       Int
+  version             Int
+  Demandante          Demandante         @relation(fields: [id_demandante], references: [id_demandante], onUpdate: NoAction, map: "FKxyc3j6l9h4drkfwq12wdp64x")
+  UnidadeDeLotacao    UnidadeDeLotacao[]
+}
+
+model Lista {
+  id_lista                 Int                     @id(map: "PK__Lista__C100E2E5173876EA") @default(autoincrement())
+  dataAlteracao            DateTime?
+  dataCriacao              DateTime?
+  usuario_atualizacao      String?                    @db.VarChar(255)
+  usuario_criacao          String?                    @db.VarChar(255)
+  nome                     String?                    @db.VarChar(255)
+  ativo                    Boolean?
+  version                  Int
+  EgressoLista             EgressoLista[]
+  Lista_UsuarioResponsavel Lista_UsuarioResponsavel[] @ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model Lista_UsuarioResponsavel {
+  id_lista           Int
+  usuarioResponsavel String? @db.VarChar(255)
+  Lista              Lista   @relation(fields: [id_lista], references: [id_lista], onUpdate: NoAction, map: "FKhfcb1us0hld4u56r0295dgbjg")
+
+  @@ignore
+}
+
+model LocalDoEvento {
+  id_localDoEvento    Int     @id(map: "PK__LocalDoE__EED4947B10566F31") @default(autoincrement())
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?    @db.VarChar(255)
+  usuario_criacao     String?    @db.VarChar(255)
+  bairro              String?    @db.VarChar(255)
+  cep                 String?    @db.VarChar(255)
+  logradouro          String?    @db.VarChar(255)
+  nome                String?    @db.VarChar(255)
+  numero              String?    @db.VarChar(255)
+  id_municipio        Int?
+  version             Int
+  Municipio           Municipio? @relation(fields: [id_municipio], references: [id_municipio], onDelete: NoAction, onUpdate: NoAction, map: "FKjmvnj6txsc3ccq2pvyy0ga3ks")
+  Evento              Evento[]
+}
+
+model Material {
+  id_material         Int            @id(map: "PK__Material__81E99B832F9A1060") @default(autoincrement())
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?           @db.VarChar(255)
+  usuario_criacao     String?           @db.VarChar(255)
+  descricao           String            @db.VarChar(255)
+  observacao          String?           @db.VarChar(Max)
+  version             Int
+  MaterialEgresso     MaterialEgresso[]
+}
+
+model MaterialEgresso {
+  id                   Int          @id(map: "PK__Material__3213E83F336AA144") @default(autoincrement())
+  dataAlteracao        DateTime?
+  dataCriacao          DateTime?
+  usuario_atualizacao  String?         @db.VarChar(255)
+  usuario_criacao      String?         @db.VarChar(255)
+  dataRecebimento      DateTime?
+  lote                 String          @db.VarChar(255)
+  observacao           String?         @db.VarChar(255)
+  quantidade           Int
+  id_egresso           Int?
+  material_id_material Int
+  tamanho_id_tamanho   Int
+  unidade_id           Int
+  version              Int
+  Egresso              Egresso?        @relation(fields: [id_egresso], references: [id_egresso], onDelete: NoAction, onUpdate: NoAction, map: "FKdwmnvyqibowpeiybmke9bbj4e")
+  Material             Material        @relation(fields: [material_id_material], references: [id_material], onUpdate: NoAction, map: "FKeagrj0d67w0islbeyl6ru1xng")
+  Tamanho              Tamanho         @relation(fields: [tamanho_id_tamanho], references: [id_tamanho], onUpdate: NoAction, map: "FKo55odkjhaqpot4avl7wbvhg6h")
+  UnidadeDeMedida      UnidadeDeMedida @relation(fields: [unidade_id], references: [id], onUpdate: NoAction, map: "FKk5d75k7y4n9hfwqbflxrt05x2")
+}
+
+model MaterialEgresso_AUD {
+  id              Int
+  REV             Int
+  REVTYPE         Int?           @db.SmallInt
+  dataRecebimento DateTime?
+  lote            String?        @db.VarChar(255)
+  observacao      String?        @db.VarChar(255)
+  quantidade      Int?
+  id_egresso      Int?
+  VersaoDosDados  VersaoDosDados @relation(fields: [REV], references: [id_versao], onUpdate: NoAction, map: "FKcvk342nphcyhr1xfd09kuhoab")
+
+  @@id([id, REV], map: "PK__Material__1EBC123B382F5661")
+}
+
+model metas {
+  id                     Int                   @id(map: "PK__metas__3213E83F4CE05A84") @default(autoincrement())
+  dataalteracao          DateTime?
+  datacriacao            DateTime?
+  excluido               Boolean?
+  usuario_atualizacao    String?                  @db.VarChar(255)
+  usuario_criacao        String?                  @db.VarChar(255)
+  descricao              String?                  @db.Text
+  nome                   String?                  @db.VarChar(255)
+  tipo                   String?                  @db.VarChar(255)
+  registro_monitoramento registro_monitoramento[]
+}
+
+model metas_aud {
+  id                  Int
+  rev                 Int
+  revtype             Int?      @db.SmallInt
+  dataalteracao       DateTime?
+  datacriacao         DateTime?
+  excluido            Boolean?
+  usuario_atualizacao String?   @db.VarChar(255)
+  usuario_criacao     String?   @db.VarChar(255)
+  descricao           String?   @db.Text
+  nome                String?   @db.VarChar(255)
+  tipo                String?   @db.VarChar(255)
+  revinfo             revinfo   @relation(fields: [rev], references: [rev], onUpdate: NoAction, map: "FKo0jjwvirkikwuqhpjf7j1l7bq")
+
+  @@id([id, rev], map: "PK__metas_au__BE3894F950B0EB68")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model modelo_de_oficio_egressos_pendentes {
+  id_documento   Int
+  id_egresso     Int
+  ModeloDeOficio ModeloDeOficio @relation(fields: [id_documento], references: [id_documento], onUpdate: NoAction, map: "FKayl3wxql5oghr3gpdj4m5md11")
+  Egresso        Egresso        @relation(fields: [id_egresso], references: [id_egresso], onUpdate: NoAction, map: "FK2q5vyof13s2mw4f46tcaxwic8")
+
+  @@ignore
+}
+
+model ModeloDeOficio {
+  status                              Int?
+  id_documento                        Int                                @id(map: "PK__ModeloDe__5D2EE7E5793DFFAF")
+  assunto                             String?                               @db.VarChar(255)
+  dataGeracao                         DateTime?
+  tipoModelo_id                       Int?
+  Documento                           Documento                             @relation(fields: [id_documento], references: [id_documento], onUpdate: NoAction, map: "FKoocvyeiw7rexscc582460l5jc")
+  TipoModeloDeOficio                  TipoModeloDeOficio?                   @relation(fields: [tipoModelo_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FKot9tp60t6otqldlv4f494eest")
+  Campanha                            Campanha[]
+  modelo_de_oficio_egressos_pendentes modelo_de_oficio_egressos_pendentes[] @ignore
+  ModeloDeOficio_EgressosPendentes    ModeloDeOficio_EgressosPendentes[]    @ignore
+  Oficio                              Oficio[]
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model ModeloDeOficio_EgressosPendentes {
+  id_documento   Int
+  id_egresso     Int
+  ModeloDeOficio ModeloDeOficio @relation(fields: [id_documento], references: [id_documento], onUpdate: NoAction, map: "FK175m0yd09rxnqu0d9v7png95m")
+  Egresso        Egresso        @relation(fields: [id_egresso], references: [id_egresso], onUpdate: NoAction, map: "FKsjfq9g3jlj0vuyfigb37qd0hv")
+
+  @@ignore
+}
+
+model monitoramento {
+  id                 Int    @id(map: "PK__monitora__3213E83F03A67F89") @default(autoincrement())
+  datacriacao        DateTime?
+  data_monitoramento DateTime
+  observacao         String?   @db.VarChar(255)
+  usuario_criacao    String?   @db.VarChar(255)
+  id_beneficiario    Int
+  Egresso            Egresso   @relation(fields: [id_beneficiario], references: [id_egresso], onUpdate: NoAction, map: "FK1kqu0cwl5p2p7k4e6wm01sse5")
+}
+
+model MonitorDemandante {
+  id                  Int       @id(map: "PK__MonitorD__3213E83F6A50C1DA") @default(autoincrement())
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?      @db.VarChar(255)
+  usuario_criacao     String?      @db.VarChar(255)
+  id_demandante       Int?
+  id_colaborador      Int?
+  id_municipio        Int?
+  id_vaga             Int?
+  version             Int
+  excluido            Boolean?
+  Colaborador         Colaborador? @relation(fields: [id_colaborador], references: [id_colaborador], onDelete: NoAction, onUpdate: NoAction, map: "FKkjfvgum5st1rtptjslcilbtcp")
+  Demandante          Demandante?  @relation(fields: [id_demandante], references: [id_demandante], onDelete: NoAction, onUpdate: NoAction, map: "FK488464tc24nmnxofnvcvmk5po")
+  Municipio           Municipio?   @relation(fields: [id_municipio], references: [id_municipio], onDelete: NoAction, onUpdate: NoAction, map: "FKr8vo69y4hnn3wda8g5ih1ex8s")
+  Vaga                Vaga?        @relation(fields: [id_vaga], references: [id_vaga], onDelete: NoAction, onUpdate: NoAction, map: "FKhpurhmqoxdx131de57nuoart")
+}
+
+model Municipio {
+  id_municipio                                                                     Int                     @id(map: "PK__Municipi__01C9EB9959063A47") @default(autoincrement())
+  dataAlteracao                                                                    DateTime?
+  dataCriacao                                                                      DateTime?
+  usuario_atualizacao                                                              String?                    @db.VarChar(255)
+  usuario_criacao                                                                  String?                    @db.VarChar(255)
+  nome                                                                             String                     @db.VarChar(255)
+  uf                                                                               String                     @db.VarChar(255)
+  id_territorio                                                                    Int?
+  municipio_cod_ibge                                                               String?                    @db.VarChar(50)
+  ID_ESC_REGIONAL                                                                  Int?
+  version                                                                          Int
+  EscritorioRegional_EscritorioRegionalToMunicipio_ID_ESC_REGIONAL                 EscritorioRegional?        @relation("EscritorioRegionalToMunicipio_ID_ESC_REGIONAL", fields: [ID_ESC_REGIONAL], references: [id_esc_regional], onDelete: NoAction, onUpdate: NoAction, map: "FK3npruo5odj2qtliid16xeas1m")
+  Territorio                                                                       Territorio?                @relation(fields: [id_territorio], references: [id_territorio], onDelete: NoAction, onUpdate: NoAction, map: "FK8qw70kw1xjsa8xltx2dw1wfto")
+  DistanciaEntreMunicipios_DistanciaEntreMunicipios_id_municipioDestinoToMunicipio DistanciaEntreMunicipios[] @relation("DistanciaEntreMunicipios_id_municipioDestinoToMunicipio")
+  DistanciaEntreMunicipios_DistanciaEntreMunicipios_id_municipioOrigemToMunicipio  DistanciaEntreMunicipios[] @relation("DistanciaEntreMunicipios_id_municipioOrigemToMunicipio")
+  Egresso_Egresso_id_municipioToMunicipio                                          Egresso[]                  @relation("Egresso_id_municipioToMunicipio")
+  Egresso_Egresso_id_municipioEscolaToMunicipio                                    Egresso[]                  @relation("Egresso_id_municipioEscolaToMunicipio")
+  EscritorioRegional_EscritorioRegional_ID_MUNICIPIOToMunicipio                    EscritorioRegional[]       @relation("EscritorioRegional_ID_MUNICIPIOToMunicipio")
+  Evento_Municipio                                                                 Evento_Municipio[]         @ignore
+  LocalDoEvento                                                                    LocalDoEvento[]
+  MonitorDemandante                                                                MonitorDemandante[]
+  registro_monitoramento                                                           registro_monitoramento[]
+  RegraContratacao                                                                 RegraContratacao[]
+  UnidadeDeLotacao                                                                 UnidadeDeLotacao[]
+  Vaga_MunicipioToVaga_id_municipioDaVaga                                          Vaga[]                     @relation("MunicipioToVaga_id_municipioDaVaga")
+  Vaga_MunicipioToVaga_id_municipioUnidadeDeLotacao                                Vaga[]                     @relation("MunicipioToVaga_id_municipioUnidadeDeLotacao")
+}
+
+model Notificacao {
+  id_notificacao      Int    @id(map: "PK__Notifica__D52047695535A963") @default(autoincrement())
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?   @db.VarChar(255)
+  usuario_criacao     String?   @db.VarChar(255)
+  dataConcluido       DateTime?
+  dataLimite          DateTime?
+  mensagem            String    @db.VarChar(1024)
+  urgente             Boolean?
+  usuarioNotificado   Int
+  version             Int
+}
+
+model Oficio {
+  numero              Int
+  id_documento        Int          @id(map: "PK__Oficio__5D2EE7E57E02B4CC")
+  id_modelo           Int?
+  ano                 Int
+  assunto             String?         @db.VarChar(255)
+  destinatarioExterno String?         @db.VarChar(255)
+  id_egresso          Int?
+  dataGeracao         DateTime?       @db.Date
+  data_geracao        DateTime?       @db.Date
+  Documento           Documento       @relation(fields: [id_documento], references: [id_documento], onUpdate: NoAction, map: "FK16rcp046emewa860l7x850a89")
+  Egresso             Egresso?        @relation(fields: [id_egresso], references: [id_egresso], onDelete: NoAction, onUpdate: NoAction, map: "FKcsl4rsjeeex2aqsm1jqibc595")
+  ModeloDeOficio      ModeloDeOficio? @relation(fields: [id_modelo], references: [id_documento], onDelete: NoAction, onUpdate: NoAction, map: "FK9uqbdsamd7fyhorduiyns0xqi")
+
+  @@index([id_modelo], map: "idx_ofic_id_modelo")
+}
+
+model opcao_resposta {
+  dataalteracao       DateTime?
+  datacriacao         DateTime?
+  excluido            Boolean?
+  usuario_atualizacao String?   @db.VarChar(255)
+  usuario_criacao     String?   @db.VarChar(255)
+  resposta_id         Int
+  pergunta_id         Int
+  perguntas           perguntas @relation(fields: [pergunta_id], references: [id], onUpdate: NoAction, map: "FKnaw9imfhtsspowmw5b68ni2sa")
+  respostas           respostas @relation(fields: [resposta_id], references: [id], onUpdate: NoAction, map: "FK99rrteo2m5ltoo0y658sret72")
+
+  @@id([pergunta_id, resposta_id], map: "PK__opcao_re__478E632243ABF605")
+}
+
+model opcao_resposta_aud {
+  pergunta_id         Int
+  resposta_id         Int
+  rev                 Int
+  revtype             Int?      @db.SmallInt
+  dataalteracao       DateTime?
+  datacriacao         DateTime?
+  excluido            Boolean?
+  usuario_atualizacao String?   @db.VarChar(255)
+  usuario_criacao     String?   @db.VarChar(255)
+  perguntas           perguntas @relation(fields: [pergunta_id], references: [id], onUpdate: NoAction, map: "FKpsdw2ae2v9ojpdo87wcqjo94v")
+  respostas           respostas @relation(fields: [resposta_id], references: [id], onUpdate: NoAction, map: "FK7u0hw7a4ygykofr3tted7y18i")
+  revinfo             revinfo   @relation(fields: [rev], references: [rev], onUpdate: NoAction, map: "FK7a768k4iysqxwg5mnr63gal5n")
+
+  @@id([pergunta_id, resposta_id, rev], map: "PK__opcao_re__2F4CD4EE477C86E9")
+}
+
+model Parametro {
+  chave     String  @id(map: "PK__Parametr__52ACE05B01D345B0") @db.VarChar(255)
+  descricao String? @db.VarChar(255)
+  valor     String? @db.VarChar(255)
+}
+
+model parametros {
+  id                  String    @id(map: "PK__parametr__3213E83F7B9B496D") @db.VarChar(255)
+  dataalteracao       DateTime?
+  datacriacao         DateTime?
+  excluido            Boolean?
+  usuario_atualizacao String?   @db.VarChar(255)
+  usuario_criacao     String?   @db.VarChar(255)
+  descricao           String?   @db.VarChar(255)
+  valor               String?   @db.VarChar(255)
+}
+
+model perguntas {
+  id                  Int               @id(map: "PK__pergunta__3213E83F383A4359") @default(autoincrement())
+  dataalteracao       DateTime?
+  datacriacao         DateTime?
+  excluido            Boolean?
+  usuario_atualizacao String?              @db.VarChar(255)
+  usuario_criacao     String?              @db.VarChar(255)
+  obrigatoria         Boolean
+  ordem               Int
+  tipo_resposta       String?              @db.VarChar(255)
+  descricao           String?              @db.VarChar(255)
+  opcao_resposta      opcao_resposta[]
+  opcao_resposta_aud  opcao_resposta_aud[]
+  resposta_item       resposta_item[]
+  resposta_item_aud   resposta_item_aud[]
+}
+
+model perguntas_aud {
+  id                  Int
+  rev                 Int
+  revtype             Int?      @db.SmallInt
+  dataalteracao       DateTime?
+  datacriacao         DateTime?
+  excluido            Boolean?
+  usuario_atualizacao String?   @db.VarChar(255)
+  usuario_criacao     String?   @db.VarChar(255)
+  descricao           String?   @db.Text
+  obrigatoria         Boolean?
+  ordem               Int?
+  tipo_resposta       String?   @db.VarChar(255)
+  revinfo             revinfo   @relation(fields: [rev], references: [rev], onUpdate: NoAction, map: "FKig3bvgixfybnjpxi1acj63b2b")
+
+  @@id([id, rev], map: "PK__pergunta__BE3894F93C0AD43D")
+}
+
+model periodos {
+  id                  Int         @id(map: "PK__periodos__3213E83F54817C4C") @default(autoincrement())
+  dataalteracao       DateTime?
+  datacriacao         DateTime?
+  excluido            Boolean?
+  usuario_atualizacao String?        @db.VarChar(255)
+  usuario_criacao     String?        @db.VarChar(255)
+  descricao           String?        @db.Text
+  dia_referencia      Int?
+  mes_fim             Int?
+  mes_inicio          Int?
+  nome                String?        @db.VarChar(255)
+  ordem               Int?           @db.SmallInt
+  tipo                String?        @db.VarChar(255)
+  agendamentos        agendamentos[]
+}
+
+model periodos_aud {
+  id                  Int
+  rev                 Int
+  revtype             Int?      @db.SmallInt
+  dataalteracao       DateTime?
+  datacriacao         DateTime?
+  excluido            Boolean?
+  usuario_atualizacao String?   @db.VarChar(255)
+  usuario_criacao     String?   @db.VarChar(255)
+  descricao           String?   @db.Text
+  dia_referencia      Int?
+  mes_fim             Int?
+  mes_inicio          Int?
+  nome                String?   @db.VarChar(255)
+  ordem               Int?      @db.SmallInt
+  tipo                String?   @db.VarChar(255)
+  revinfo             revinfo   @relation(fields: [rev], references: [rev], onUpdate: NoAction, map: "FK4qhmaoaitxhp3b7iqb48ogm0w")
+
+  @@id([id, rev], map: "PK__periodos__BE3894F958520D30")
+}
+
+model PontoFocal {
+  id_pontoFocal       Int           @id(map: "PK__PontoFoc__6355A1F01B0907CE") @default(autoincrement())
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?          @db.VarChar(255)
+  usuario_criacao     String?          @db.VarChar(255)
+  email               String?          @db.VarChar(255)
+  nome                String           @db.VarChar(255)
+  telefone1           String?          @db.VarChar(255)
+  telefone2           String?          @db.VarChar(255)
+  telefone3           String?          @db.VarChar(255)
+  telefone4           String?          @db.VarChar(255)
+  telefone5           String?          @db.VarChar(255)
+  id_unidadeDeLotacao Int
+  version             Int
+  UnidadeDeLotacao    UnidadeDeLotacao @relation(fields: [id_unidadeDeLotacao], references: [id_unidadeDeLotacao], onUpdate: NoAction, map: "FKh76qgxa3a63xlue7ymj23krxt")
+  Egresso             Egresso[]
+}
+
+model questionarios {
+  id                             Int                   @id(map: "PK__question__3213E83F7BD05397") @default(autoincrement())
+  dataalteracao                  DateTime?
+  datacriacao                    DateTime?
+  usuario_atualizacao            String?                  @db.VarChar(255)
+  usuario_criacao                String?                  @db.VarChar(255)
+  autonomia                      String?                  @db.VarChar(255)
+  conhecimento                   String?                  @db.VarChar(255)
+  descricao_desvio_de_funcao     String?                  @db.Text
+  desvio_de_funcao               String?                  @db.VarChar(255)
+  experiencia_profissional       String?                  @db.VarChar(255)
+  habilidade                     String?                  @db.VarChar(255)
+  motivacao                      String?                  @db.VarChar(255)
+  observacao                     String?                  @db.Text
+  pontualidade                   String?                  @db.VarChar(255)
+  tipo_desvio_de_funcao          String?                  @db.VarChar(255)
+  id_registro_monitoramento      Int
+  acidente_de_trabalho           Boolean?
+  gravida                        Boolean?
+  excluido                       Boolean?
+  descricao_acidente_de_trabalho String?                  @db.Text
+  registro_monitoramento         registro_monitoramento   @relation(fields: [id_registro_monitoramento], references: [id], onUpdate: NoAction, map: "FKofbbxyokva3nac7ufl16lhyn0")
+  avaliacao_questionario         avaliacao_questionario[]
+}
+
+model questionarios_aud {
+  id                             Int
+  rev                            Int
+  revtype                        Int?      @db.SmallInt
+  dataalteracao                  DateTime?
+  datacriacao                    DateTime?
+  excluido                       Boolean?
+  usuario_atualizacao            String?   @db.VarChar(255)
+  usuario_criacao                String?   @db.VarChar(255)
+  acidente_de_trabalho           Boolean?
+  autonomia                      String?   @db.VarChar(255)
+  conhecimento                   String?   @db.VarChar(255)
+  descricao_desvio_de_funcao     String?   @db.Text
+  desvio_de_funcao               String?   @db.VarChar(255)
+  experiencia_profissional       String?   @db.VarChar(255)
+  gravida                        Boolean?
+  habilidade                     String?   @db.VarChar(255)
+  motivacao                      String?   @db.VarChar(255)
+  observacao                     String?   @db.Text
+  pontualidade                   String?   @db.VarChar(255)
+  tipo_desvio_de_funcao          String?   @db.VarChar(255)
+  id_registro_monitoramento      Int?
+  descricao_acidente_de_trabalho String?   @db.Text
+  revinfo                        revinfo   @relation(fields: [rev], references: [rev], onUpdate: NoAction, map: "FK2vjmumaf2k5lvyn7x9dfvt3rj")
+
+  @@id([id, rev], map: "PK__question__BE3894F93138400F")
+}
+
+model registro_monitoramento {
+  id                                                                   Int              @id(map: "PK__registro__3213E83F7FA0E47B") @default(autoincrement())
+  dataalteracao                                                        DateTime?
+  datacriacao                                                          DateTime?
+  usuario_atualizacao                                                  String?             @db.VarChar(255)
+  usuario_criacao                                                      String?             @db.VarChar(255)
+  data_monitoramento                                                   DateTime
+  data_prox_monitoramento                                              DateTime?
+  links                                                                String?             @db.VarChar(255)
+  observacao                                                           String?             @db.Text
+  principais_registros                                                 String?             @db.Text
+  sub_meta                                                             String?             @db.VarChar(255)
+  unidade_lotacao                                                      String?             @db.VarChar(255)
+  id_beneficiario                                                      Int
+  id_comprovacao                                                       Int?
+  id_demandante                                                        Int?
+  id_monitor                                                           Int
+  id_monitor_associado                                                 Int
+  id_municipio                                                         Int?
+  presente                                                             Boolean?
+  excluido                                                             Boolean?
+  id_agendamento                                                       Int?
+  id_meta                                                              Int?
+  tipo_monitoramento                                                   String?             @db.VarChar(255)
+  agendamentos                                                         agendamentos?       @relation(fields: [id_agendamento], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FKfg4jv1tff2m22tlhff351p85f")
+  Egresso                                                              Egresso             @relation(fields: [id_beneficiario], references: [id_egresso], onUpdate: NoAction, map: "FKgxn70puna20hbdqxv5slchkbw")
+  comprovacao                                                          comprovacao?        @relation(fields: [id_comprovacao], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK5mo3nxjhqu6enap8b79afegw1")
+  Demandante                                                           Demandante?         @relation(fields: [id_demandante], references: [id_demandante], onDelete: NoAction, onUpdate: NoAction, map: "FKadhgmgpc1wplehlcwsq8hb0u")
+  metas                                                                metas?              @relation(fields: [id_meta], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FKa4mnc3m36al4jphv7c8681tnw")
+  Colaborador_ColaboradorToregistro_monitoramento_id_monitor           Colaborador         @relation("ColaboradorToregistro_monitoramento_id_monitor", fields: [id_monitor], references: [id_colaborador], onUpdate: NoAction, map: "FKgfqn7n8alardf46cgkecpmtqk")
+  Colaborador_ColaboradorToregistro_monitoramento_id_monitor_associado Colaborador         @relation("ColaboradorToregistro_monitoramento_id_monitor_associado", fields: [id_monitor_associado], references: [id_colaborador], onUpdate: NoAction, map: "FKfxgoy66t2ael3di931hblawg2")
+  Municipio                                                            Municipio?          @relation(fields: [id_municipio], references: [id_municipio], onDelete: NoAction, onUpdate: NoAction, map: "FK2gju6quacut5tcbif3o2h5nwp")
+  questionarios                                                        questionarios[]
+  resposta_item                                                        resposta_item[]
+  resposta_item_aud                                                    resposta_item_aud[]
+}
+
+model registro_monitoramento_aud {
+  id                      Int
+  rev                     Int
+  revtype                 Int?      @db.SmallInt
+  dataalteracao           DateTime?
+  datacriacao             DateTime?
+  excluido                Boolean?
+  usuario_atualizacao     String?   @db.VarChar(255)
+  usuario_criacao         String?   @db.VarChar(255)
+  data_monitoramento      DateTime?
+  data_prox_monitoramento DateTime?
+  links                   String?   @db.VarChar(255)
+  observacao              String?   @db.Text
+  presente                Boolean?
+  principais_registros    String?   @db.Text
+  sub_meta                String?   @db.VarChar(255)
+  unidade_lotacao         String?   @db.VarChar(255)
+  id_beneficiario         Int?
+  id_comprovacao          Int?
+  id_demandante           Int?
+  id_monitor              Int?
+  id_monitor_associado    Int?
+  id_municipio            Int?
+  id_agendamento          Int?
+  id_meta                 Int?
+  tipo_monitoramento      String?   @db.VarChar(255)
+  revinfo                 revinfo   @relation(fields: [rev], references: [rev], onUpdate: NoAction, map: "FKthygf6wf5e9fpwb5mck4pq76s")
+
+  @@id([id, rev], map: "PK__registro__BE3894F93508D0F3")
+}
+
+model RegraContratacao {
+  id                       Int      @id(map: "PK__RegraCon__3213E83F1E6F845E") @default(autoincrement())
+  dataAlteracao            DateTime?
+  dataCriacao              DateTime?
+  usuario_atualizacao      String?     @db.VarChar(255)
+  usuario_criacao          String?     @db.VarChar(255)
+  ativo                    Boolean?
+  demandante               Bytes?      @db.VarBinary(255)
+  formacao                 Bytes?      @db.VarBinary(255)
+  municipio                Bytes?      @db.VarBinary(255)
+  demandante_id_demandante Int?
+  formacao_id_formacao     Int?
+  municipio_id_municipio   Int?
+  version                  Int
+  Demandante               Demandante? @relation(fields: [demandante_id_demandante], references: [id_demandante], onDelete: NoAction, onUpdate: NoAction, map: "FKnjw8prdiwkv8iqimultrfh0e8")
+  Formacao                 Formacao?   @relation(fields: [formacao_id_formacao], references: [id_formacao], onDelete: NoAction, onUpdate: NoAction, map: "FKafnm884kjcfrmhhm8ff9dj8ss")
+  Municipio                Municipio?  @relation(fields: [municipio_id_municipio], references: [id_municipio], onDelete: NoAction, onUpdate: NoAction, map: "FK55j8alhnem5wcveqojr71ngwv")
+}
+
+model resposta_item {
+  dataalteracao             DateTime?
+  datacriacao               DateTime?
+  excluido                  Boolean?
+  usuario_atualizacao       String?                @db.VarChar(255)
+  usuario_criacao           String?                @db.VarChar(255)
+  observacao                String?                @db.Text
+  registro_monitoramento_id Int
+  resposta_id               Int
+  pergunta_id               Int
+  perguntas                 perguntas              @relation(fields: [pergunta_id], references: [id], onUpdate: NoAction, map: "FK15fe8pi1c400r2lrw91e8ic72")
+  registro_monitoramento    registro_monitoramento @relation(fields: [registro_monitoramento_id], references: [id], onUpdate: NoAction, map: "FK97qi5gm23r48hjji4vxtttnda")
+  respostas                 respostas              @relation(fields: [resposta_id], references: [id], onUpdate: NoAction, map: "FKaof6pdi2s68oiu3b8052a4ynv")
+
+  @@id([pergunta_id, registro_monitoramento_id, resposta_id], map: "PK__resposta__C7404D794B4D17CD")
+}
+
+model resposta_item_aud {
+  pergunta_id               Int
+  registro_monitoramento_id Int
+  resposta_id               Int
+  rev                       Int
+  revtype                   Int?                   @db.SmallInt
+  dataalteracao             DateTime?
+  datacriacao               DateTime?
+  excluido                  Boolean?
+  usuario_atualizacao       String?                @db.VarChar(255)
+  usuario_criacao           String?                @db.VarChar(255)
+  observacao                String?                @db.Text
+  perguntas                 perguntas              @relation(fields: [pergunta_id], references: [id], onUpdate: NoAction, map: "FKb9d4arhsmemql1rchsusyjrk6")
+  registro_monitoramento    registro_monitoramento @relation(fields: [registro_monitoramento_id], references: [id], onUpdate: NoAction, map: "FK668qoalltgejc7tw8v4aoxqix")
+  respostas                 respostas              @relation(fields: [resposta_id], references: [id], onUpdate: NoAction, map: "FKoxwwj796nnkdhc6a4paf0sqrv")
+  revinfo                   revinfo                @relation(fields: [rev], references: [rev], onUpdate: NoAction, map: "FK6hq9catoap7c0d6mq7bithjx7")
+
+  @@id([pergunta_id, registro_monitoramento_id, resposta_id, rev], map: "PK__resposta__01CC66054F1DA8B1")
+}
+
+model respostas {
+  id                  Int               @id(map: "PK__resposta__3213E83F52EE3995") @default(autoincrement())
+  dataalteracao       DateTime?
+  datacriacao         DateTime?
+  excluido            Boolean?
+  usuario_atualizacao String?              @db.VarChar(255)
+  usuario_criacao     String?              @db.VarChar(255)
+  descricao           String?              @db.VarChar(255)
+  opcao_resposta      opcao_resposta[]
+  opcao_resposta_aud  opcao_resposta_aud[]
+  resposta_item       resposta_item[]
+  resposta_item_aud   resposta_item_aud[]
+}
+
+model respostas_aud {
+  id                  Int
+  rev                 Int
+  revtype             Int?      @db.SmallInt
+  dataalteracao       DateTime?
+  datacriacao         DateTime?
+  excluido            Boolean?
+  usuario_atualizacao String?   @db.VarChar(255)
+  usuario_criacao     String?   @db.VarChar(255)
+  descricao           String?   @db.VarChar(255)
+  revinfo             revinfo   @relation(fields: [rev], references: [rev], onUpdate: NoAction, map: "FK8nodxdpfy26bg380lll1pe7qf")
+
+  @@id([id, rev], map: "PK__resposta__BE3894F956BECA79")
+}
+
+model revinfo {
+  rev                        Int                          @id(map: "PK__revinfo__C2B7CC6938D961D7") @default(autoincrement())
+  revtstmp                   Int?
+  agendamentos_aud           agendamentos_aud[]
+  comprovacao_aud            comprovacao_aud[]
+  metas_aud                  metas_aud[]
+  opcao_resposta_aud         opcao_resposta_aud[]
+  perguntas_aud              perguntas_aud[]
+  periodos_aud               periodos_aud[]
+  questionarios_aud          questionarios_aud[]
+  registro_monitoramento_aud registro_monitoramento_aud[]
+  resposta_item_aud          resposta_item_aud[]
+  respostas_aud              respostas_aud[]
+}
+
+model Situacao {
+  id_situacao         Int              @id(map: "PK__Situacao__E2EF00C11ED998B2") @default(autoincrement())
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?             @db.VarChar(255)
+  usuario_criacao     String?             @db.VarChar(255)
+  nome                String              @db.VarChar(255)
+  id_categoria        Int
+  cor                 String?             @db.VarChar(255)
+  version             Int
+  CategoriaDaSituacao CategoriaDaSituacao @relation(fields: [id_categoria], references: [id_categoriaDaSituacao], onUpdate: NoAction, map: "FK4ra4dg1lyxw3r4is07hdplutj")
+  Vaga                Vaga[]
+}
+
+model sysdiagrams {
+  name         String @db.NVarChar(128)
+  principal_id Int
+  diagram_id   Int    @id(map: "PK__sysdiagr__C2B05B6113FCE2E3") @default(autoincrement())
+  version      Int?
+  definition   Bytes?
+
+  @@unique([principal_id, name], map: "UK_principal_name")
+}
+
+model Tamanho {
+  id_tamanho          Int            @id(map: "PK__Tamanho__E0B058EE3BFFE745") @default(autoincrement())
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?           @db.VarChar(255)
+  usuario_criacao     String?           @db.VarChar(255)
+  descricao           String            @db.VarChar(255)
+  ordem               Int?              @unique(map: "UK_bcx14c6t6d6ym6o85bur5kmpp") @db.SmallInt
+  sigla               String            @db.VarChar(255)
+  version             Int
+  MaterialEgresso     MaterialEgresso[]
+}
+
+model Telefone {
+  seq                 Int       @db.SmallInt
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?   @db.VarChar(255)
+  usuario_criacao     String?   @db.VarChar(255)
+  version             Int
+  descricao           String?   @db.VarChar(255)
+  numero              String    @db.VarChar(11)
+  tipo                String?   @db.VarChar(255)
+  id_egresso          Int
+  Egresso             Egresso   @relation(fields: [id_egresso], references: [id_egresso], onUpdate: NoAction, map: "FKkjoaas0k8db5de2mcx38ihunb")
+
+  @@id([id_egresso, seq], map: "PK__Telefone__93E98CBC744F2D60")
+}
+
+model Territorio {
+  id_territorio       Int      @id(map: "PK__Territor__2EB5134360A75C0F") @default(autoincrement())
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?     @db.VarChar(255)
+  usuario_criacao     String?     @db.VarChar(255)
+  nome                String?     @db.VarChar(255)
+  version             Int
+  uf                  String?     @db.VarChar(255)
+  Municipio           Municipio[]
+}
+
+model TipoAssistenciaSocial {
+  id_tipoAssistenciaSocial Int              @id(map: "PK__TipoAssi__26ED27F122AA2996") @default(autoincrement())
+  dataAlteracao            DateTime?
+  dataCriacao              DateTime?
+  usuario_atualizacao      String?             @db.VarChar(255)
+  usuario_criacao          String?             @db.VarChar(255)
+  nome                     String?             @db.VarChar(255)
+  version                  Int
+  AssistenciaSocial        AssistenciaSocial[]
+}
+
+model TipoDeAcao {
+  id_tipoDeAcao       Int    @id(map: "PK__TipoDeAc__6E406984267ABA7A") @default(autoincrement())
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?   @db.VarChar(255)
+  usuario_criacao     String?   @db.VarChar(255)
+  nome                String?   @db.VarChar(255)
+  version             Int
+  Acao                Acao[]
+}
+
+model TipoModeloDeOficio {
+  id                  Int           @id(map: "PK__TipoMode__3213E83F11558062") @default(autoincrement())
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?          @db.VarChar(255)
+  usuario_criacao     String?          @db.VarChar(255)
+  version             Int
+  ativo               Boolean?
+  codigo              String?          @db.VarChar(255)
+  descricao           String?          @db.VarChar(255)
+  ModeloDeOficio      ModeloDeOficio[]
+}
+
+model UnidadeDeLotacao {
+  id_unidadeDeLotacao Int       @id(map: "PK__UnidadeD__AE411DA72A4B4B5E") @default(autoincrement())
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?      @db.VarChar(255)
+  usuario_criacao     String?      @db.VarChar(255)
+  nome                String?      @db.VarChar(255)
+  id_instituicao      Int
+  bairro              String?      @db.VarChar(255)
+  cep                 String?      @db.VarChar(255)
+  logradouro          String?      @db.VarChar(255)
+  id_municipio        Int?
+  version             Int
+  Instituicao         Instituicao  @relation(fields: [id_instituicao], references: [id_instituicao], onUpdate: NoAction, map: "FKt9dg1pui21xqq4f3qnplrdivm")
+  Municipio           Municipio?   @relation(fields: [id_municipio], references: [id_municipio], onDelete: NoAction, onUpdate: NoAction, map: "FKuedjmsj69us7l29w7gwqsm8r")
+  PontoFocal          PontoFocal[]
+}
+
+model UnidadeDeMedida {
+  id                  Int            @id(map: "PK__UnidadeD__3213E83F3FD07829") @default(autoincrement())
+  dataAlteracao       DateTime?
+  dataCriacao         DateTime?
+  usuario_atualizacao String?           @db.VarChar(255)
+  usuario_criacao     String?           @db.VarChar(255)
+  nome                String            @db.VarChar(255)
+  sigla               String            @db.VarChar(255)
+  version             Int
+  MaterialEgresso     MaterialEgresso[]
+}
+
+model Vaga {
+  id_vaga                                                Int              @id(map: "PK__Vaga__52D909226477ECF3") @default(autoincrement())
+  dataAlteracao                                          DateTime?
+  dataCriacao                                            DateTime?
+  usuario_atualizacao                                    String?             @db.VarChar(255)
+  usuario_criacao                                        String?             @db.VarChar(255)
+  bairroUnidadeDeLotacao                                 String?             @db.VarChar(255)
+  cepUnidadeDeLotacao                                    String?             @db.VarChar(255)
+  dataConvocacaoSETRESINE                                String?             @db.VarChar(255)
+  dataDeEnvioDaSituacaoParaSETRESINE                     String?             @db.VarChar(255)
+  dataInicioAtividades                                   DateTime?           @db.Date
+  dataRemessaSETRESINE                                   String?             @db.VarChar(255)
+  demandante                                             String?             @db.VarChar(255)
+  emailPontoFocal                                        String?             @db.VarChar(255)
+  instituicao                                            String?             @db.VarChar(255)
+  logradouroUnidadeDeLotacao                             String?             @db.VarChar(255)
+  mesRemessaSETRESINE                                    String?             @db.VarChar(255)
+  pontoFocalNaUnidade                                    String?             @db.VarChar(255)
+  publicacaoDiarioOficial                                String?             @db.VarChar(255)
+  remessaSETRESINE                                       String?             @db.VarChar(255)
+  telefone1PontoFocal                                    String?             @db.VarChar(255)
+  telefone2PontoFocal                                    String?             @db.VarChar(255)
+  telefone3PontoFocal                                    String?             @db.VarChar(255)
+  telefone4PontoFocal                                    String?             @db.VarChar(255)
+  telefone5PontoFocal                                    String?             @db.VarChar(255)
+  unidadeDeLotacao                                       String?             @db.VarChar(255)
+  id_egresso                                             Int?
+  id_municipioDaVaga                                     Int?
+  id_municipioUnidadeDeLotacao                           Int?
+  id_situacao                                            Int?
+  id_demandante                                          Int?
+  observacaoInicioAtividades                             String?             @db.VarChar(255)
+  version                                                Int
+  Demandante                                             Demandante?         @relation(fields: [id_demandante], references: [id_demandante], onDelete: NoAction, onUpdate: NoAction, map: "FKgfc4ylp84tlf6myjrunvp89pn")
+  Egresso                                                Egresso?            @relation(fields: [id_egresso], references: [id_egresso], onDelete: NoAction, onUpdate: NoAction, map: "FK44o36518oiqg2x42putgscrnk")
+  Municipio_MunicipioToVaga_id_municipioDaVaga           Municipio?          @relation("MunicipioToVaga_id_municipioDaVaga", fields: [id_municipioDaVaga], references: [id_municipio], onDelete: NoAction, onUpdate: NoAction, map: "FKip843p0ov68c9paxj05kh8oev")
+  Municipio_MunicipioToVaga_id_municipioUnidadeDeLotacao Municipio?          @relation("MunicipioToVaga_id_municipioUnidadeDeLotacao", fields: [id_municipioUnidadeDeLotacao], references: [id_municipio], onDelete: NoAction, onUpdate: NoAction, map: "FKhsvxyy2o9adlgjtftjk84g7m9")
+  Situacao                                               Situacao?           @relation(fields: [id_situacao], references: [id_situacao], onDelete: NoAction, onUpdate: NoAction, map: "FKp425j34grhw1r499vbo9d50mq")
+  MonitorDemandante                                      MonitorDemandante[]
+
+  @@index([id_egresso], map: "idx_vaga_id_egresso")
+}
+
+model Vaga_AUD {
+  id_vaga                            Int
+  REV                                Int
+  REVTYPE                            Int?           @db.SmallInt
+  bairroUnidadeDeLotacao             String?        @db.VarChar(255)
+  cepUnidadeDeLotacao                String?        @db.VarChar(255)
+  dataConvocacaoSETRESINE            String?        @db.VarChar(255)
+  dataDeEnvioDaSituacaoParaSETRESINE String?        @db.VarChar(255)
+  dataInicioAtividades               DateTime?      @db.Date
+  dataRemessaSETRESINE               String?        @db.VarChar(255)
+  demandante                         String?        @db.VarChar(255)
+  emailPontoFocal                    String?        @db.VarChar(255)
+  instituicao                        String?        @db.VarChar(255)
+  logradouroUnidadeDeLotacao         String?        @db.VarChar(255)
+  mesRemessaSETRESINE                String?        @db.VarChar(255)
+  pontoFocalNaUnidade                String?        @db.VarChar(255)
+  publicacaoDiarioOficial            String?        @db.VarChar(255)
+  remessaSETRESINE                   String?        @db.VarChar(255)
+  telefone1PontoFocal                String?        @db.VarChar(255)
+  telefone2PontoFocal                String?        @db.VarChar(255)
+  telefone3PontoFocal                String?        @db.VarChar(255)
+  telefone4PontoFocal                String?        @db.VarChar(255)
+  telefone5PontoFocal                String?        @db.VarChar(255)
+  unidadeDeLotacao                   String?        @db.VarChar(255)
+  id_egresso                         Int?
+  id_municipioDaVaga                 Int?
+  id_municipioUnidadeDeLotacao       Int?
+  id_situacao                        Int?
+  id_demandante                      Int?
+  observacaoInicioAtividades         String?        @db.VarChar(255)
+  VersaoDosDados                     VersaoDosDados @relation(fields: [REV], references: [id_versao], onUpdate: NoAction, map: "FKbqhb2vom7h449rcmkyk8qshfi")
+
+  @@id([id_vaga, REV], map: "PK__Vaga_AUD__7E76F32668487DD7")
+}
+
+model VersaoDosDados {
+  id_versao             Int                     @id(map: "PK__VersaoDo__D95E408248CFD27E") @default(autoincrement())
+  login                 String?                 @db.VarChar(255)
+  timestamp             Int
+  Acao_AUD              Acao_AUD[]
+  AssistenciaSocial_AUD AssistenciaSocial_AUD[]
+  Egresso_AUD           Egresso_AUD[]
+  MaterialEgresso_AUD   MaterialEgresso_AUD[]
+  Vaga_AUD              Vaga_AUD[]
+}
+
+model visita_beneficiario {
+  id                  Int       @id(map: "PK__visita_b__3213E83F3A8CA01F") @default(autoincrement())
+  dataalteracao       DateTime?
+  datacriacao         DateTime?
+  excluido            Boolean?
+  usuario_atualizacao String?      @db.VarChar(255)
+  usuario_criacao     String?      @db.VarChar(255)
+  data_visita         DateTime?
+  status              String?      @db.VarChar(255)
+  id_colaborador      Int?
+  id_egresso          Int?
+  Colaborador         Colaborador? @relation(fields: [id_colaborador], references: [id_colaborador], onDelete: NoAction, onUpdate: NoAction, map: "FKs06vqibuvs2ouvubdyohtdr2j")
+  Egresso             Egresso?     @relation(fields: [id_egresso], references: [id_egresso], onDelete: NoAction, onUpdate: NoAction, map: "FKpnf7ie6jo6de9k3qi148ry6n0")
+}
