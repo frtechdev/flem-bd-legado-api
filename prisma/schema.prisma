@@ -4,11 +4,11 @@ generator client {
 
 datasource db {
   provider = "sqlserver"
-  url      = env("NEXT_PUBLIC_DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 model Acao {
-  id_acao             Int         @id(map: "PK__Acao__B474D3977F60ED59") @default(autoincrement())
+  id_acao             Int            @id(map: "PK__Acao__B474D3977F60ED59") @default(autoincrement())
   dataAlteracao       DateTime?
   dataCriacao         DateTime?
   usuario_atualizacao String?        @db.VarChar(255)
@@ -38,7 +38,7 @@ model Acao_AUD {
 }
 
 model agendamentos {
-  id                     Int                   @id(map: "PK__agendame__3213E83F453F38BC") @default(autoincrement())
+  id                     Int                      @id(map: "PK__agendame__3213E83F453F38BC") @default(autoincrement())
   dataalteracao          DateTime?
   datacriacao            DateTime?
   excluido               Boolean?
@@ -78,7 +78,7 @@ model agendamentos_aud {
 }
 
 model AssistenciaSocial {
-  id_assitenciasocial      Int                @id(map: "PK__Assisten__150A296703317E3D") @default(autoincrement())
+  id_assitenciasocial      Int                   @id(map: "PK__Assisten__150A296703317E3D") @default(autoincrement())
   dataAlteracao            DateTime?
   dataCriacao              DateTime?
   usuario_atualizacao      String?               @db.VarChar(255)
@@ -105,7 +105,7 @@ model AssistenciaSocial_AUD {
 }
 
 model avaliacao_monitoramento {
-  id                     Int                   @id(map: "PK__avaliaca__3213E83F705EA0EB") @default(autoincrement())
+  id                     Int                      @id(map: "PK__avaliaca__3213E83F705EA0EB") @default(autoincrement())
   dataalteracao          DateTime?
   datacriacao            DateTime?
   usuario_atualizacao    String?                  @db.VarChar(255)
@@ -133,7 +133,7 @@ model avaliacao_questionario {
 }
 
 model Campanha {
-  id_campanha         Int          @id(map: "PK__Campanha__57EB72BC02084FDA") @default(autoincrement())
+  id_campanha         Int             @id(map: "PK__Campanha__57EB72BC02084FDA") @default(autoincrement())
   dataAlteracao       DateTime?
   dataCriacao         DateTime?
   usuario_atualizacao String?         @db.VarChar(255)
@@ -150,7 +150,7 @@ model Campanha {
 }
 
 model CategoriaDaSituacao {
-  id_categoriaDaSituacao Int     @id(map: "PK__Categori__5A40C39407020F21") @default(autoincrement())
+  id_categoriaDaSituacao Int        @id(map: "PK__Categori__5A40C39407020F21") @default(autoincrement())
   dataAlteracao          DateTime?
   dataCriacao            DateTime?
   usuario_atualizacao    String?    @db.VarChar(255)
@@ -164,7 +164,7 @@ model CategoriaDaSituacao {
 model CI {
   fechada      Boolean?
   numero       Int
-  id_documento Int        @id(map: "PK__CI__5D2EE7E56CD828CA")
+  id_documento Int           @id(map: "PK__CI__5D2EE7E56CD828CA")
   ano          Int
   assunto      String?       @db.VarChar(255)
   id_egresso   Int?
@@ -184,7 +184,7 @@ model CI_Egressos {
 }
 
 model Colaborador {
-  id_colaborador                                                                  Int                        @id(map: "PK__Colabora__BA4DA94627F8EE98") @default(autoincrement())
+  id_colaborador                                                                  Int                           @id(map: "PK__Colabora__BA4DA94627F8EE98") @default(autoincrement())
   dataAlteracao                                                                   DateTime?
   dataCriacao                                                                     DateTime?
   usuario_atualizacao                                                             String?                       @db.VarChar(255)
@@ -217,7 +217,7 @@ model colaborador_has_demandantes {
 }
 
 model comprovacao {
-  id                     Int                   @id(map: "PK__comprova__3213E83F77FFC2B3") @default(autoincrement())
+  id                     Int                      @id(map: "PK__comprova__3213E83F77FFC2B3") @default(autoincrement())
   dataalteracao          DateTime?
   datacriacao            DateTime?
   usuario_atualizacao    String?                  @db.VarChar(255)
@@ -251,7 +251,7 @@ model comprovacao_aud {
 }
 
 model ContaDeEmail {
-  id_contaDeEmail     Int     @id(map: "PK__ContaDeE__E5F78286498EEC8D") @default(autoincrement())
+  id_contaDeEmail     Int        @id(map: "PK__ContaDeE__E5F78286498EEC8D") @default(autoincrement())
   dataAlteracao       DateTime?
   dataCriacao         DateTime?
   usuario_atualizacao String?    @db.VarChar(255)
@@ -268,7 +268,7 @@ model ContaDeEmail {
 }
 
 model CoordenadorFocal {
-  id_coordenadorFocal Int     @id(map: "PK__Coordena__9BCFEF0472C60C4A") @default(autoincrement())
+  id_coordenadorFocal Int        @id(map: "PK__Coordena__9BCFEF0472C60C4A") @default(autoincrement())
   dataAlteracao       DateTime?
   dataCriacao         DateTime?
   usuario_atualizacao String?    @db.VarChar(255)
@@ -282,7 +282,7 @@ model CoordenadorFocal {
 }
 
 model Deficiencia {
-  id_deficiencia      Int    @id(map: "PK__Deficien__A1980C4E1DB06A4F") @default(autoincrement())
+  id_deficiencia      Int       @id(map: "PK__Deficien__A1980C4E1DB06A4F") @default(autoincrement())
   dataAlteracao       DateTime?
   dataCriacao         DateTime?
   usuario_atualizacao String?   @db.VarChar(255)
@@ -293,7 +293,7 @@ model Deficiencia {
 }
 
 model Demandante {
-  id_demandante               Int                        @id(map: "PK__Demandan__EAEEB12C0AD2A005") @default(autoincrement())
+  id_demandante               Int                           @id(map: "PK__Demandan__EAEEB12C0AD2A005") @default(autoincrement())
   dataAlteracao               DateTime?
   dataCriacao                 DateTime?
   usuario_atualizacao         String?                       @db.VarChar(255)
@@ -318,7 +318,7 @@ model Demandante {
 }
 
 model DistanciaEntreMunicipios {
-  id_distanciaEntreMunicipios                                       Int     @id(map: "PK__Distanci__265A74214E53A1AA") @default(autoincrement())
+  id_distanciaEntreMunicipios                                       Int        @id(map: "PK__Distanci__265A74214E53A1AA") @default(autoincrement())
   dataAlteracao                                                     DateTime?
   dataCriacao                                                       DateTime?
   usuario_atualizacao                                               String?    @db.VarChar(255)
@@ -334,7 +334,7 @@ model DistanciaEntreMunicipios {
 }
 
 model Documento {
-  id_documento        Int              @id(map: "PK__Document__5D2EE7E5719CDDE7") @default(autoincrement())
+  id_documento        Int                 @id(map: "PK__Document__5D2EE7E5719CDDE7") @default(autoincrement())
   dataAlteracao       DateTime?
   dataCriacao         DateTime?
   usuario_atualizacao String?             @db.VarChar(255)
@@ -352,7 +352,7 @@ model Documento {
 }
 
 model DocumentoDoEgresso {
-  id_documento Int    @id(map: "PK__Document__5D2EE7E5756D6ECB")
+  id_documento Int       @id(map: "PK__Document__5D2EE7E5756D6ECB")
   id_egresso   Int
   sigiloso     Boolean?
   Documento    Documento @relation(fields: [id_documento], references: [id_documento], onUpdate: NoAction, map: "FK5lodg9w4geby3tpmvn7oh1fgs")
@@ -360,7 +360,7 @@ model DocumentoDoEgresso {
 }
 
 model Egresso {
-  id_egresso                                      Int                                @id(map: "PK__Egresso__6E3477770EA330E9") @default(autoincrement())
+  id_egresso                                      Int                                   @id(map: "PK__Egresso__6E3477770EA330E9") @default(autoincrement())
   dataAlteracao                                   DateTime?
   dataCriacao                                     DateTime?
   usuario_atualizacao                             String?                               @db.VarChar(255)
@@ -602,7 +602,7 @@ model Egresso_AUD {
 }
 
 model EgressoLista {
-  id_egressolista     Int    @id(map: "PK__EgressoL__E0349AE8440B1D61") @default(autoincrement())
+  id_egressolista     Int       @id(map: "PK__EgressoL__E0349AE8440B1D61") @default(autoincrement())
   dataAlteracao       DateTime?
   dataCriacao         DateTime?
   usuario_atualizacao String?   @db.VarChar(255)
@@ -618,7 +618,7 @@ model EgressoLista {
 }
 
 model EixoDeFormacao {
-  id_eixoDeFormacao   Int     @id(map: "PK__EixoDeFo__DDF0042E76969D2E") @default(autoincrement())
+  id_eixoDeFormacao   Int        @id(map: "PK__EixoDeFo__DDF0042E76969D2E") @default(autoincrement())
   dataAlteracao       DateTime?
   dataCriacao         DateTime?
   usuario_atualizacao String?    @db.VarChar(255)
@@ -648,7 +648,7 @@ model EnvioDeEmail {
 }
 
 model EscritorioRegional {
-  id_esc_regional                                         Int        @id(map: "PK__Escritor__4454B1702BC97F7C") @default(autoincrement())
+  id_esc_regional                                         Int           @id(map: "PK__Escritor__4454B1702BC97F7C") @default(autoincrement())
   dataAlteracao                                           DateTime?
   dataCriacao                                             DateTime?
   usuario_atualizacao                                     String?       @db.VarChar(255)
@@ -679,7 +679,7 @@ model ESRG {
 }
 
 model Evento {
-  id_evento           Int              @id(map: "PK__Evento__AF150CA509A971A2") @default(autoincrement())
+  id_evento           Int                 @id(map: "PK__Evento__AF150CA509A971A2") @default(autoincrement())
   dataAlteracao       DateTime?
   dataCriacao         DateTime?
   usuario_atualizacao String?             @db.VarChar(255)
@@ -735,7 +735,7 @@ model Evento_Municipio {
 }
 
 model Formacao {
-  id_formacao         Int             @id(map: "PK__Formacao__AE618B3E7A672E12") @default(autoincrement())
+  id_formacao         Int                @id(map: "PK__Formacao__AE618B3E7A672E12") @default(autoincrement())
   dataAlteracao       DateTime?
   dataCriacao         DateTime?
   usuario_atualizacao String?            @db.VarChar(255)
@@ -750,7 +750,7 @@ model Formacao {
 }
 
 model Instituicao {
-  id_instituicao      Int             @id(map: "PK__Institui__F1F4021D1367E606") @default(autoincrement())
+  id_instituicao      Int                @id(map: "PK__Institui__F1F4021D1367E606") @default(autoincrement())
   dataAlteracao       DateTime?
   dataCriacao         DateTime?
   usuario_atualizacao String?            @db.VarChar(255)
@@ -763,7 +763,7 @@ model Instituicao {
 }
 
 model Lista {
-  id_lista                 Int                     @id(map: "PK__Lista__C100E2E5173876EA") @default(autoincrement())
+  id_lista                 Int                        @id(map: "PK__Lista__C100E2E5173876EA") @default(autoincrement())
   dataAlteracao            DateTime?
   dataCriacao              DateTime?
   usuario_atualizacao      String?                    @db.VarChar(255)
@@ -785,7 +785,7 @@ model Lista_UsuarioResponsavel {
 }
 
 model LocalDoEvento {
-  id_localDoEvento    Int     @id(map: "PK__LocalDoE__EED4947B10566F31") @default(autoincrement())
+  id_localDoEvento    Int        @id(map: "PK__LocalDoE__EED4947B10566F31") @default(autoincrement())
   dataAlteracao       DateTime?
   dataCriacao         DateTime?
   usuario_atualizacao String?    @db.VarChar(255)
@@ -802,7 +802,7 @@ model LocalDoEvento {
 }
 
 model Material {
-  id_material         Int            @id(map: "PK__Material__81E99B832F9A1060") @default(autoincrement())
+  id_material         Int               @id(map: "PK__Material__81E99B832F9A1060") @default(autoincrement())
   dataAlteracao       DateTime?
   dataCriacao         DateTime?
   usuario_atualizacao String?           @db.VarChar(255)
@@ -814,7 +814,7 @@ model Material {
 }
 
 model MaterialEgresso {
-  id                   Int          @id(map: "PK__Material__3213E83F336AA144") @default(autoincrement())
+  id                   Int             @id(map: "PK__Material__3213E83F336AA144") @default(autoincrement())
   dataAlteracao        DateTime?
   dataCriacao          DateTime?
   usuario_atualizacao  String?         @db.VarChar(255)
@@ -849,7 +849,7 @@ model MaterialEgresso_AUD {
 }
 
 model metas {
-  id                     Int                   @id(map: "PK__metas__3213E83F4CE05A84") @default(autoincrement())
+  id                     Int                      @id(map: "PK__metas__3213E83F4CE05A84") @default(autoincrement())
   dataalteracao          DateTime?
   datacriacao            DateTime?
   excluido               Boolean?
@@ -890,7 +890,7 @@ model modelo_de_oficio_egressos_pendentes {
 
 model ModeloDeOficio {
   status                              Int?
-  id_documento                        Int                                @id(map: "PK__ModeloDe__5D2EE7E5793DFFAF")
+  id_documento                        Int                                   @id(map: "PK__ModeloDe__5D2EE7E5793DFFAF")
   assunto                             String?                               @db.VarChar(255)
   dataGeracao                         DateTime?
   tipoModelo_id                       Int?
@@ -913,7 +913,7 @@ model ModeloDeOficio_EgressosPendentes {
 }
 
 model monitoramento {
-  id                 Int    @id(map: "PK__monitora__3213E83F03A67F89") @default(autoincrement())
+  id                 Int       @id(map: "PK__monitora__3213E83F03A67F89") @default(autoincrement())
   datacriacao        DateTime?
   data_monitoramento DateTime
   observacao         String?   @db.VarChar(255)
@@ -923,7 +923,7 @@ model monitoramento {
 }
 
 model MonitorDemandante {
-  id                  Int       @id(map: "PK__MonitorD__3213E83F6A50C1DA") @default(autoincrement())
+  id                  Int          @id(map: "PK__MonitorD__3213E83F6A50C1DA") @default(autoincrement())
   dataAlteracao       DateTime?
   dataCriacao         DateTime?
   usuario_atualizacao String?      @db.VarChar(255)
@@ -941,7 +941,7 @@ model MonitorDemandante {
 }
 
 model Municipio {
-  id_municipio                                                                     Int                     @id(map: "PK__Municipi__01C9EB9959063A47") @default(autoincrement())
+  id_municipio                                                                     Int                        @id(map: "PK__Municipi__01C9EB9959063A47") @default(autoincrement())
   dataAlteracao                                                                    DateTime?
   dataCriacao                                                                      DateTime?
   usuario_atualizacao                                                              String?                    @db.VarChar(255)
@@ -970,7 +970,7 @@ model Municipio {
 }
 
 model Notificacao {
-  id_notificacao      Int    @id(map: "PK__Notifica__D52047695535A963") @default(autoincrement())
+  id_notificacao      Int       @id(map: "PK__Notifica__D52047695535A963") @default(autoincrement())
   dataAlteracao       DateTime?
   dataCriacao         DateTime?
   usuario_atualizacao String?   @db.VarChar(255)
@@ -985,7 +985,7 @@ model Notificacao {
 
 model Oficio {
   numero              Int
-  id_documento        Int          @id(map: "PK__Oficio__5D2EE7E57E02B4CC")
+  id_documento        Int             @id(map: "PK__Oficio__5D2EE7E57E02B4CC")
   id_modelo           Int?
   ano                 Int
   assunto             String?         @db.VarChar(255)
@@ -1049,7 +1049,7 @@ model parametros {
 }
 
 model perguntas {
-  id                  Int               @id(map: "PK__pergunta__3213E83F383A4359") @default(autoincrement())
+  id                  Int                  @id(map: "PK__pergunta__3213E83F383A4359") @default(autoincrement())
   dataalteracao       DateTime?
   datacriacao         DateTime?
   excluido            Boolean?
@@ -1084,7 +1084,7 @@ model perguntas_aud {
 }
 
 model periodos {
-  id                  Int         @id(map: "PK__periodos__3213E83F54817C4C") @default(autoincrement())
+  id                  Int            @id(map: "PK__periodos__3213E83F54817C4C") @default(autoincrement())
   dataalteracao       DateTime?
   datacriacao         DateTime?
   excluido            Boolean?
@@ -1122,7 +1122,7 @@ model periodos_aud {
 }
 
 model PontoFocal {
-  id_pontoFocal       Int           @id(map: "PK__PontoFoc__6355A1F01B0907CE") @default(autoincrement())
+  id_pontoFocal       Int              @id(map: "PK__PontoFoc__6355A1F01B0907CE") @default(autoincrement())
   dataAlteracao       DateTime?
   dataCriacao         DateTime?
   usuario_atualizacao String?          @db.VarChar(255)
@@ -1141,7 +1141,7 @@ model PontoFocal {
 }
 
 model questionarios {
-  id                             Int                   @id(map: "PK__question__3213E83F7BD05397") @default(autoincrement())
+  id                             Int                      @id(map: "PK__question__3213E83F7BD05397") @default(autoincrement())
   dataalteracao                  DateTime?
   datacriacao                    DateTime?
   usuario_atualizacao            String?                  @db.VarChar(255)
@@ -1194,7 +1194,7 @@ model questionarios_aud {
 }
 
 model registro_monitoramento {
-  id                                                                   Int              @id(map: "PK__registro__3213E83F7FA0E47B") @default(autoincrement())
+  id                                                                   Int                 @id(map: "PK__registro__3213E83F7FA0E47B") @default(autoincrement())
   dataalteracao                                                        DateTime?
   datacriacao                                                          DateTime?
   usuario_atualizacao                                                  String?             @db.VarChar(255)
@@ -1262,7 +1262,7 @@ model registro_monitoramento_aud {
 }
 
 model RegraContratacao {
-  id                       Int      @id(map: "PK__RegraCon__3213E83F1E6F845E") @default(autoincrement())
+  id                       Int         @id(map: "PK__RegraCon__3213E83F1E6F845E") @default(autoincrement())
   dataAlteracao            DateTime?
   dataCriacao              DateTime?
   usuario_atualizacao      String?     @db.VarChar(255)
@@ -1318,7 +1318,7 @@ model resposta_item_aud {
 }
 
 model respostas {
-  id                  Int               @id(map: "PK__resposta__3213E83F52EE3995") @default(autoincrement())
+  id                  Int                  @id(map: "PK__resposta__3213E83F52EE3995") @default(autoincrement())
   dataalteracao       DateTime?
   datacriacao         DateTime?
   excluido            Boolean?
@@ -1362,7 +1362,7 @@ model revinfo {
 }
 
 model Situacao {
-  id_situacao         Int              @id(map: "PK__Situacao__E2EF00C11ED998B2") @default(autoincrement())
+  id_situacao         Int                 @id(map: "PK__Situacao__E2EF00C11ED998B2") @default(autoincrement())
   dataAlteracao       DateTime?
   dataCriacao         DateTime?
   usuario_atualizacao String?             @db.VarChar(255)
@@ -1386,7 +1386,7 @@ model sysdiagrams {
 }
 
 model Tamanho {
-  id_tamanho          Int            @id(map: "PK__Tamanho__E0B058EE3BFFE745") @default(autoincrement())
+  id_tamanho          Int               @id(map: "PK__Tamanho__E0B058EE3BFFE745") @default(autoincrement())
   dataAlteracao       DateTime?
   dataCriacao         DateTime?
   usuario_atualizacao String?           @db.VarChar(255)
@@ -1415,7 +1415,7 @@ model Telefone {
 }
 
 model Territorio {
-  id_territorio       Int      @id(map: "PK__Territor__2EB5134360A75C0F") @default(autoincrement())
+  id_territorio       Int         @id(map: "PK__Territor__2EB5134360A75C0F") @default(autoincrement())
   dataAlteracao       DateTime?
   dataCriacao         DateTime?
   usuario_atualizacao String?     @db.VarChar(255)
@@ -1427,7 +1427,7 @@ model Territorio {
 }
 
 model TipoAssistenciaSocial {
-  id_tipoAssistenciaSocial Int              @id(map: "PK__TipoAssi__26ED27F122AA2996") @default(autoincrement())
+  id_tipoAssistenciaSocial Int                 @id(map: "PK__TipoAssi__26ED27F122AA2996") @default(autoincrement())
   dataAlteracao            DateTime?
   dataCriacao              DateTime?
   usuario_atualizacao      String?             @db.VarChar(255)
@@ -1438,7 +1438,7 @@ model TipoAssistenciaSocial {
 }
 
 model TipoDeAcao {
-  id_tipoDeAcao       Int    @id(map: "PK__TipoDeAc__6E406984267ABA7A") @default(autoincrement())
+  id_tipoDeAcao       Int       @id(map: "PK__TipoDeAc__6E406984267ABA7A") @default(autoincrement())
   dataAlteracao       DateTime?
   dataCriacao         DateTime?
   usuario_atualizacao String?   @db.VarChar(255)
@@ -1449,7 +1449,7 @@ model TipoDeAcao {
 }
 
 model TipoModeloDeOficio {
-  id                  Int           @id(map: "PK__TipoMode__3213E83F11558062") @default(autoincrement())
+  id                  Int              @id(map: "PK__TipoMode__3213E83F11558062") @default(autoincrement())
   dataAlteracao       DateTime?
   dataCriacao         DateTime?
   usuario_atualizacao String?          @db.VarChar(255)
@@ -1462,7 +1462,7 @@ model TipoModeloDeOficio {
 }
 
 model UnidadeDeLotacao {
-  id_unidadeDeLotacao Int       @id(map: "PK__UnidadeD__AE411DA72A4B4B5E") @default(autoincrement())
+  id_unidadeDeLotacao Int          @id(map: "PK__UnidadeD__AE411DA72A4B4B5E") @default(autoincrement())
   dataAlteracao       DateTime?
   dataCriacao         DateTime?
   usuario_atualizacao String?      @db.VarChar(255)
@@ -1480,7 +1480,7 @@ model UnidadeDeLotacao {
 }
 
 model UnidadeDeMedida {
-  id                  Int            @id(map: "PK__UnidadeD__3213E83F3FD07829") @default(autoincrement())
+  id                  Int               @id(map: "PK__UnidadeD__3213E83F3FD07829") @default(autoincrement())
   dataAlteracao       DateTime?
   dataCriacao         DateTime?
   usuario_atualizacao String?           @db.VarChar(255)
@@ -1492,7 +1492,7 @@ model UnidadeDeMedida {
 }
 
 model Vaga {
-  id_vaga                                                Int              @id(map: "PK__Vaga__52D909226477ECF3") @default(autoincrement())
+  id_vaga                                                Int                 @id(map: "PK__Vaga__52D909226477ECF3") @default(autoincrement())
   dataAlteracao                                          DateTime?
   dataCriacao                                            DateTime?
   usuario_atualizacao                                    String?             @db.VarChar(255)
@@ -1581,7 +1581,7 @@ model VersaoDosDados {
 }
 
 model visita_beneficiario {
-  id                  Int       @id(map: "PK__visita_b__3213E83F3A8CA01F") @default(autoincrement())
+  id                  Int          @id(map: "PK__visita_b__3213E83F3A8CA01F") @default(autoincrement())
   dataalteracao       DateTime?
   datacriacao         DateTime?
   excluido            Boolean?
