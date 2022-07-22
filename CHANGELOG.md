@@ -10,6 +10,22 @@
 
 </div>
 
+## v0.0.2-220721dx
+
+- Alteração da localização da documentação feita pelo jsdoc
+- Atualização da documentação
+- Alteração dos parâmetros de redirecionamento da página principal da API para redirecionar para a documentação
+- Documentação dos métodos e demais componentes
+- Definição da Homepage da API
+- Remoção da especificação de porta via .env (utilizando sintaxe direta dos scripts de execução do Node)
+- Atualização do README
+- Reorganização dos utilitários e ferramentas de serviço
+- Criação de controller para listagem e verificação de Beneficiários
+- Criação de controller para listagem e verificação de Situações
+- Criação de controller para listagem e verificação de Vagas
+- Alterado algoritmo para manipulação das requisições API aos Controllers para trabalhar com filtros e critérios específicos de acesso ao BD
+- Criado utilitário para realizar parsing dos objetos das requisições API e montar os filtros
+
 ## v0.0.1-220701dx
 
 - Criação dos arquivos principais do projeto

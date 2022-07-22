@@ -1,6 +1,6 @@
 <hr>
 <h1 align="center">flem-bd-legado-api</h1>
-<p align=center><i align="center">API de conexão com o BD Legado do PPE, para o cliente FLEM</i></p>
+<p align=center><i align="center">API de conexão com o BD Legado, para o cliente FLEM</i></p>
 <hr>
 
 <div align="center">
@@ -77,15 +77,6 @@ API que consome requisições das aplicações FLEM para o Servidor de Banco de 
 
 ## Documentação
 
-- [Quadros Kanban da Metodologia Ágil](https://frtechnologies.notion.site/Quadro-Kanban-c6994bfdb6ba4ab98434b805635d3fe7)
-- [Roadmap](https://miro.com/app/board/uXjVOMzAe7s=/?invite_link_id=872842801580)
-- [Documentação das Regras de Negócio](https://frtechnologies.notion.site/Documenta-o-de-Refer-ncia-das-Regras-de-Neg-cio-a66eae4edf5045e4b17e414647500c31)
-- Diagramas
-  - [Modelo Conceitual de Fluxo de Cadastramento de Beneficiários](https://miro.com/app/board/uXjVONgTB50=/?invite_link_id=986301656145)
-  - [Diagrama de Macroprocessos](https://miro.com/app/board/uXjVOOJxdWc=/?invite_link_id=184583999527)
-  - [Mapa de Macroprocessos](https://miro.com/app/board/uXjVOOroXvA=/?invite_link_id=576187018086)
-  - Diagrama de Banco de Dados
-
 Documentação adicional pode ser encontrada [aqui](https://frtechdev.github.io/flem-bd-legado-api/).
 
 <br>
@@ -105,8 +96,7 @@ Para testar a aplicação, crie um arquivo .env com as seguintes variáveis de a
 
 | Variável                 | Uso  |
 | ------------------- | -------|
-| `NEXT_PUBLIC_PORT=` | Define porta para uso na execução do Node |
-|`NEXT_PUBLIC_DATABASE_URL=`          | Define o endereço do Servidor de BD e credenciais para acesso, de acordo com as especificações da biblioteca [Prisma.io](https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/relational-databases/connect-your-database-node-sqlserver)| |
+|`DATABASE_URL=`          | Define o endereço do Servidor de BD e credenciais para acesso, de acordo com as especificações da biblioteca [Prisma.io](https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/relational-databases/connect-your-database-node-sqlserver)| |
 
 <br>
 
