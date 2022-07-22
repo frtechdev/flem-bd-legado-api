@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Adding favicon -->
+    
+
+    <!-- Adding meta -->
+    
+    
+    <meta name="author" content="https://github.com/DexDevLab" />
+    
+    <meta name="author" content="https://github.com/rodsl" />
+    
+    <meta name="description" content="API para consulta e conexão com o Banco de Dados FLEM" />
+    
+    
+
+    <!-- Adding external script-->
+    
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous" ></script>
+    
+    
+
+    <!-- Adding external style-->
+    
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
+    
+    
+
+    <!-- Adding scripts-->
+    
+
+    <!-- Adding style-->
+    
+
+    <!-- Adding overlay script-->
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.13.0/js/OverlayScrollbars.min.js"
+      integrity="sha512-5R3ngaUdvyhXkQkIqTf/k+Noq3phjmrqlUQyQYbgfI34Mzcx7vLIIYTy/K1VMHkL33T709kfh5y6R9Xy/Cbt7Q=="
+      crossorigin="anonymous"></script>
+    
+
+    <!-- Adding overlay style-->
+    
+
+
+    <title>
+      Home
+    </title>
+
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/third-party/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/third-party/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/reset.css">
+    <link type="text/css" rel="stylesheet" href="styles/clean-jsdoc-theme-base.css">
+    <link type="text/css" rel="stylesheet" href="styles/clean-jsdoc-theme-light.css">
+    
+    <style>
+      nav{background: yellow}
+    </style>
+    
+    <svg aria-hidden="true" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    style="display:none">
+    <defs>
+        <symbol id="copy-icon" viewbox="0 0 488.3 488.3">
+            <g>
+                <path
+                    d="M314.25,85.4h-227c-21.3,0-38.6,17.3-38.6,38.6v325.7c0,21.3,17.3,38.6,38.6,38.6h227c21.3,0,38.6-17.3,38.6-38.6V124    C352.75,102.7,335.45,85.4,314.25,85.4z M325.75,449.6c0,6.4-5.2,11.6-11.6,11.6h-227c-6.4,0-11.6-5.2-11.6-11.6V124    c0-6.4,5.2-11.6,11.6-11.6h227c6.4,0,11.6,5.2,11.6,11.6V449.6z" />
+                <path
+                    d="M401.05,0h-227c-21.3,0-38.6,17.3-38.6,38.6c0,7.5,6,13.5,13.5,13.5s13.5-6,13.5-13.5c0-6.4,5.2-11.6,11.6-11.6h227    c6.4,0,11.6,5.2,11.6,11.6v325.7c0,6.4-5.2,11.6-11.6,11.6c-7.5,0-13.5,6-13.5,13.5s6,13.5,13.5,13.5c21.3,0,38.6-17.3,38.6-38.6    V38.6C439.65,17.3,422.35,0,401.05,0z" />
+            </g>
+        </symbol>
+        <symbol id='search-icon' viewBox="0 0 512 512">
+            <g>
+                <g>
+                    <path
+                        d="M225.474,0C101.151,0,0,101.151,0,225.474c0,124.33,101.151,225.474,225.474,225.474    c124.33,0,225.474-101.144,225.474-225.474C450.948,101.151,349.804,0,225.474,0z M225.474,409.323    c-101.373,0-183.848-82.475-183.848-183.848S124.101,41.626,225.474,41.626s183.848,82.475,183.848,183.848    S326.847,409.323,225.474,409.323z" />
+                </g>
+            </g>
+            <g>
+                <g>
+                    <path
+                        d="M505.902,476.472L386.574,357.144c-8.131-8.131-21.299-8.131-29.43,0c-8.131,8.124-8.131,21.306,0,29.43l119.328,119.328    c4.065,4.065,9.387,6.098,14.715,6.098c5.321,0,10.649-2.033,14.715-6.098C514.033,497.778,514.033,484.596,505.902,476.472z" />
+                </g>
+            </g>
+        </symbol>
+        <symbol id="down-icon" viewBox="0 0 16 16">
+            <path 
+                fill-rule="evenodd" 
+                clip-rule="evenodd" 
+                d="M12.7803 6.21967C13.0732 6.51256 13.0732 6.98744 12.7803 7.28033L8.53033 11.5303C8.23744 11.8232 7.76256 11.8232 7.46967 11.5303L3.21967 7.28033C2.92678 6.98744 2.92678 6.51256 3.21967 6.21967C3.51256 5.92678 3.98744 5.92678 4.28033 6.21967L8 9.93934L11.7197 6.21967C12.0126 5.92678 12.4874 5.92678 12.7803 6.21967Z"
+            >
+            </path>
+        </symbol>
+    </defs>
+</svg>
+  </head>
+
+  <body>
+
+    <nav class="navbar" id="navbar">
+      <div class="navbar-heading" id="navbar-heading"><a href="index.html"><h2 class="navbar-heading-text">API de Banco de Dados Legado FLEM - Documentação</h2></a></div><div class="search-box" id="search-box"><div class="search-box-input-container"><input class="search-box-input" type="text" placeholder="Search..." id="search-box-input" /><svg class="search-icon" alt="search-icon"><use xlink:href="#search-icon"></use></svg></div><div class="search-item-container" id="search-item-container"><ul class="search-item-ul" id="search-item-ul"></ul></div></div><div class="sidebar-main-content" id="sidebar-main-content"><ul><li class="menu-li"><a href='https://frtechnologies.com.br' class='some-class menu-link' id='some-id' target='_blank'>Website</a></li><li class="menu-li"><a href='https://github.com/frtechdev/flem-bd-legado-api/' class='some-class menu-link' id='some-id' target='_blank'>Github</a></li></ul><div class="accordion collapsed" id="7211509" > <h3 class="accordion-heading">Global<svg><use xlink:href="#down-icon"></use></svg></h3><ul class="accordion-content"><li class="accordion-list" id=""><a href="global.html#allowCors">allowCors</a></li><li class="accordion-list" id=""><a href="global.html#composeFilter">composeFilter</a></li><li class="accordion-list" id=""><a href="global.html#formatCPF">formatCPF</a></li><li class="accordion-list" id=""><a href="global.html#getBenef">getBenef</a></li><li class="accordion-list" id=""><a href="global.html#getBenefByFilter">getBenefByFilter</a></li><li class="accordion-list" id=""><a href="global.html#getSituacoes">getSituacoes</a></li><li class="accordion-list" id=""><a href="global.html#getSituacoesByFilter">getSituacoesByFilter</a></li><li class="accordion-list" id=""><a href="global.html#getVagas">getVagas</a></li><li class="accordion-list" id=""><a href="global.html#getVagasByFilter">getVagasByFilter</a></li><li class="accordion-list" id=""><a href="global.html#handler">handler</a></li><li class="accordion-list" id=""><a href="global.html#maskCapitalize">maskCapitalize</a></li><li class="accordion-list" id=""><a href="global.html#maskCPF">maskCPF</a></li><li class="accordion-list" id=""><a href="global.html#maskDate">maskDate</a></li><li class="accordion-list" id=""><a href="global.html#MyApp">MyApp</a></li><li class="accordion-list" id=""><a href="global.html#parseArrayToInteger">parseArrayToInteger</a></li><li class="accordion-list" id=""><a href="global.html#parseArrayToString">parseArrayToString</a></li><li class="accordion-list" id=""><a href="global.html#prisma">prisma</a></li><li class="accordion-list" id=""><a href="global.html#unmaskCPF">unmaskCPF</a></li></ul> </div>
+      
+        <div class="navbar-resize" id="navbar-resize">
+          <div class="resize-dots-container">
+            <div class="dots"></div>
+            <div class="dots"></div>
+            <div class="dots"></div>
+          </div> 
+        </div>
+      
+
+    </nav>
+    <div class="navbar-ham" id="navbar-ham">
+      <div>
+        <div class="first"></div>
+        <div class="second"></div>
+        <div class="third"></div>
+      </div>
+    </div>
+
+    <div id="main" class="main-content">
+      
+
+      
+
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+    <section class="readme">
+        <article><hr>
+<h1 align="center">flem-bd-legado-api</h1>
+<p align=center><i align="center">API de conexão com o BD Legado, para o cliente FLEM</i></p>
+<hr>
+<div align="center">
+<p><a href=""><a href="https://github.com/frtechdev/flem-bd-legado-api"><img src="https://img.shields.io/lgtm/alerts/github/frtechdev/flem-bd-legado-api" alt="Alerts"></a> </a>
+<a href=""><a href="https://github.com/frtechdev/flem-bd-legado-api"><img src="https://img.shields.io/lgtm/grade/javascript/github/frtechdev/flem-bd-legado-api" alt="Grade"></a></a>
+<a href=""><a href="https://github.com/frtechdev/flem-bd-legado-api"><img src="https://img.shields.io/github/languages/code-size/frtechdev/flem-bd-legado-api" alt="Code Size"></a></a>
+<a href=""><a href="https://github.com/frtechdev/flem-bd-legado-api"><img src="https://img.shields.io/github/repo-size/frtechdev/flem-bd-legado-api" alt="Repo Size"></a></a>
+<a href=""><a href="https://github.com/frtechdev/flem-bd-legado-api/graphs/contributors"><img src="https://img.shields.io/github/contributors/frtechdev/flem-bd-legado-api" alt="Contributors"></a></a><br>
+<a href=""><a href="https://github.com/frtechdev/flem-bd-legado-api/"><img src="https://img.shields.io/github/last-commit/frtechdev/flem-bd-legado-api" alt="Last Commit"></a> </a>
+<a href=""><a href="https://github.com/frtechdev/flem-bd-legado-api/fork"><img src="https://img.shields.io/github/forks/frtechdev/flem-bd-legado-api" alt="Fork"></a> </a>
+<a href=""><img src="https://img.shields.io/badge/version-0.0.1-005bff" alt="Version"> </a>
+<a href=""><a href="https://github.com/frtechdev/flem-bd-legado-api/LICENSE"><img src="https://img.shields.io/github/license/frtechdev/flem-bd-legado-api" alt="license"></a></a>
+<br></p>
+</div>
+<p>API que consome requisições das aplicações FLEM para o Servidor de Banco de Dados legado.</p>
+<br>
+<h2>Conteúdo</h2>
+<ul>
+<li><a href="#objetivo">Objetivo</a></li>
+<li><a href="#caracter%C3%ADsticas">Características</a></li>
+<li><a href="#especifica%C3%A7%C3%B5es">Especificações</a></li>
+<li><a href="#stack">Stack</a></li>
+<li><a href="#documenta%C3%A7%C3%A3o">Documentação</a></li>
+<li><a href="#notas-de-vers%C3%A3o">Notas de versão</a></li>
+<li><a href="#como-usar-este-reposit%C3%B3rio">Como usar este repositório</a>
+<ul>
+<li><a href="#vari%C3%A1veis-de-ambiente">Variáveis de Ambiente</a></li>
+</ul>
+</li>
+<li><a href="#autores">Autores</a></li>
+<li><a href="#contato">Contato</a></li>
+<li><a href="#licen%C3%A7a">Licença</a></li>
+</ul>
+<br>
+<h2>Objetivo</h2>
+<ul>
+<li>Fornecer uma API de alta performance e baixo custo computacional que consuma de maneira segura e estável os dados requisitados</li>
+<li>Manipular de maneira independente e com controle integrado dados provenientes do BD Flem.</li>
+</ul>
+<br>
+<h2>Características</h2>
+<ul>
+<li>Facilita os processos resumindo todas as suas funcionalidades centradas no consumo dos dados sem comprometer a performance.</li>
+</ul>
+<br>
+<h2>Especificações</h2>
+<ul>
+<li><strong>Tipo de Software:</strong> Interface de Programação de Aplicações</li>
+<li><strong>Distribuição:</strong> Web</li>
+<li><strong>Arquitetura:</strong> MVC</li>
+<li><strong>Metodologia de Projeto:</strong> Metodologia Ágil</li>
+<li><strong>Estrutura de Biblioteca:</strong> Baseada em Framework</li>
+<li><strong>Protocolo de Banco de Dados:</strong> ODBC</li>
+<li><strong>Dialeto de Banco de Dados:</strong> SQL</li>
+<li><strong>Disponibilidade de Código:</strong> Open Source</li>
+</ul>
+<br>
+<h2>Stack</h2>
+<ul>
+<li><strong>Linguagem Principal:</strong> <a href="https://developer.mozilla.org/pt-BR/docs/Web/JavaScript">Javascript</a></li>
+<li><strong>Framework Principal:</strong> <a href="https://nodejs.org/en/docs/">Node.js</a></li>
+<li><strong>Framework estrutural:</strong> <a href="https://nextjs.org/docs/getting-started">Next.js</a></li>
+<li><strong>Biblioteca de Conexão ODBC:</strong> <a href="https://www.prisma.io">Prisma.io</a></li>
+<li><strong>Gerenciador de Bibliotecas:</strong> <a href="https://yarnpkg.com/getting-started">Yarn</a></li>
+<li><strong>Bibliotecas:</strong> Para uma lista completa de bibliotecas e dependências nos mais variados escopos, conferir o arquivo <a href="https://github.com/frtechdev/flem-bd-dominio-api/blob/master/package.json">package.json</a>.</li>
+</ul>
+<br>
+<h2>Documentação</h2>
+<p>Documentação adicional pode ser encontrada <a href="https://frtechdev.github.io/flem-bd-legado-api/">aqui</a>.</p>
+<br>
+<h2>Notas de versão</h2>
+<p>Para ver as notas de versão, clique <a href="https://github.com/frtechdev/flem-bd-legado-api/blob/master/CHANGELOG.md">aqui</a>.
+<br></p>
+<h2>Como usar este repositório</h2>
+<p>Em breve.</p>
+<h3>Variáveis de Ambiente</h3>
+<p>Para testar a aplicação, crie um arquivo .env com as seguintes variáveis de ambiente:</p>
+<table>
+<thead>
+<tr>
+<th>Variável</th>
+<th>Uso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NEXT_PUBLIC_DATABASE_URL=</code></td>
+<td>Define o endereço do Servidor de BD e credenciais para acesso, de acordo com as especificações da biblioteca <a href="https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/relational-databases/connect-your-database-node-sqlserver">Prisma.io</a></td>
+</tr>
+</tbody>
+</table>
+<br>
+<h2>Autores</h2>
+<a href="https://github.com/frtechdev/flem-bd-legado-api/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=frtechdev/flem-bd-legado-api" />
+</a>
+<br>
+<h2>Contato</h2>
+<p>Se você gostou desse projeto, nos dê uma <a href="https://github.com/frtechdev/flem-bd-legado-api" data-icon="octicon-star" aria-label="Star frtechdev/flem-bd-legado-api on GitHub">estrela</a>. Isso agirá como um indicador da qualidade dos nossos serviços. <br>
+Para contato, envie um email a: <a href="mailto:devops@frtechnologies.com.br">devops@frtechnologies.com.br</a></p>
+<br>
+<h2>Licença</h2>
+<p>Licenciado sob a <a href="https://github.com/frtechdev/flem-bd-legado-api/blob/main/LICENSE">MIT License</a>.</p></article>
+    </section>
+
+
+
+
+
+
+    </div>
+
+    <footer class="footer" id="footer">
+      Made with ☕️ by <a href='https://github.com/frtechdev'>FR Technologies</a>
+    </footer>
+
+    <script src="scripts/third-party/prettify.js"></script>
+    <script src="scripts/third-party/lang-css.js"></script>
+    <script type="text/javascript" src="scripts/misc.js"></script>
+
+    <script>prettyPrint();</script>
+    <script src="scripts/linenumber.js"></script>
+    <script src="scripts/fix-code-block.js"></script>
+    <script src="scripts/fix-navbar.js"></script>
+    
+      <script src="scripts/search.js"></script>
+      <script src="scripts/third-party/fuse.js"></script>
+      <script>
+        var list = [{"title":"allowCors","link":"<a href=\"global.html#allowCors\">allowCors</a>"},{"title":"composeFilter","link":"<a href=\"global.html#composeFilter\">composeFilter</a>"},{"title":"formatCPF","link":"<a href=\"global.html#formatCPF\">formatCPF</a>"},{"title":"getBenef","link":"<a href=\"global.html#getBenef\">getBenef</a>"},{"title":"getBenefByFilter","link":"<a href=\"global.html#getBenefByFilter\">getBenefByFilter</a>"},{"title":"getSituacoes","link":"<a href=\"global.html#getSituacoes\">getSituacoes</a>"},{"title":"getSituacoesByFilter","link":"<a href=\"global.html#getSituacoesByFilter\">getSituacoesByFilter</a>"},{"title":"getVagas","link":"<a href=\"global.html#getVagas\">getVagas</a>"},{"title":"getVagasByFilter","link":"<a href=\"global.html#getVagasByFilter\">getVagasByFilter</a>"},{"title":"handler","link":"<a href=\"global.html#handler\">handler</a>"},{"title":"maskCapitalize","link":"<a href=\"global.html#maskCapitalize\">maskCapitalize</a>"},{"title":"maskCPF","link":"<a href=\"global.html#maskCPF\">maskCPF</a>"},{"title":"maskDate","link":"<a href=\"global.html#maskDate\">maskDate</a>"},{"title":"MyApp","link":"<a href=\"global.html#MyApp\">MyApp</a>"},{"title":"parseArrayToInteger","link":"<a href=\"global.html#parseArrayToInteger\">parseArrayToInteger</a>"},{"title":"parseArrayToString","link":"<a href=\"global.html#parseArrayToString\">parseArrayToString</a>"},{"title":"prisma","link":"<a href=\"global.html#prisma\">prisma</a>"},{"title":"unmaskCPF","link":"<a href=\"global.html#unmaskCPF\">unmaskCPF</a>"}];
+        var options = {}
+          setupSearch(list, options)
+      </script>
+    
+
+    
+    <script type="text/javascript">
+        function foo(){console.log('foo')}
+    </script>
+    
+
+    
+      <script src="scripts/resize.js"></script>
+      <script type="text/javascript">
+        var option = {"min":"300","max":"600"}
+        setupResizeOptions(option)
+      </script>
+    
+
+    
+    <script type="text/javascript">
+    var option = JSON.parse('{"options":{}}')
+      document.addEventListener("DOMContentLoaded", function () {
+        OverlayScrollbars(document.querySelectorAll('body'), option.option || {});
+      });
+    </script>
+    
+
+
+  </body>
+
+</html>
